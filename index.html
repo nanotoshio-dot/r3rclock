@@ -141,16 +141,84 @@
         }
 
         body.skin-nyse {
-            --bg-color: #f1f5f9;
+            --bg-color: #eef2f7;
             --text-main: #0f172a;
-            --text-dim: #475569;
+            --text-dim: #64748b;
             --panel-bg: #ffffff;
-            --panel-border: #cbd5e1;
-            --accent-color: #1e3a8a;
-            --accent-orange: #d97706;
+            --panel-border: #dde3ed;
+            --accent-color: #1e40af;
+            --accent-orange: #1e3a8a;
             --clock-ring: #2563eb;
             --tick-main: #64748b;
-            --tick-sub: #e2e8f0;
+            --tick-sub: #dde3ed;
+        }
+
+        /* ── NYSE Wall St: overrides para cores hardcoded ── */
+        body.skin-nyse .market-arc.closed {
+            stroke: #d1d9e6 !important;
+        }
+        body.skin-nyse .preopen-arc {
+            stroke: #b8c5d8;
+        }
+        body.skin-nyse #secondHand {
+            stroke: #e11d48;
+            stroke-width: 1.5;
+        }
+        body.skin-nyse .card-open .status-badge {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #86efac;
+        }
+        body.skin-nyse .card-closed .status-badge {
+            background: #fee2e2;
+            color: #b91c1c;
+            border-color: #fca5a5;
+        }
+        body.skin-nyse .card-holiday .status-badge {
+            background: #fef9c3;
+            color: #854d0e;
+            border-color: #fde047;
+        }
+        body.skin-nyse .countdown-timer {
+            color: #1d4ed8;
+        }
+        body.skin-nyse .card-open .countdown-timer {
+            color: #1e3a8a;
+        }
+        body.skin-nyse .market-card:hover {
+            border-color: #93c5fd;
+            box-shadow: 0 2px 12px rgba(37, 99, 235, 0.1);
+        }
+        body.skin-nyse .settings-btn:hover {
+            background: #f1f5f9;
+            border-color: #2563eb;
+        }
+        body.skin-nyse .ticker-tape-wrapper {
+            box-shadow: 0 -2px 12px rgba(15, 23, 42, 0.07);
+        }
+        body.skin-nyse .side-panel::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+        }
+        body.skin-nyse .card-closing-soon {
+            animation: nyse-card-pulse 0.8s ease-in-out infinite alternate;
+        }
+        @keyframes nyse-card-pulse {
+            0%   { border-color: #dde3ed; box-shadow: none; }
+            100% { border-color: #e11d48; box-shadow: 0 0 10px 2px rgba(225, 29, 72, 0.15); }
+        }
+        body.skin-nyse .card-closing-soon .status-badge {
+            animation: nyse-badge-blink 0.8s ease-in-out infinite alternate;
+        }
+        @keyframes nyse-badge-blink {
+            0%   { background: #dcfce7; color: #15803d; border-color: #86efac; }
+            100% { background: #fee2e2; color: #e11d48; border-color: #fca5a5; }
+        }
+        body.skin-nyse .arc-closing-soon {
+            animation: nyse-arc-pulse 0.8s ease-in-out infinite alternate;
+        }
+        @keyframes nyse-arc-pulse {
+            0%   { stroke-width: 6; filter: none; }
+            100% { stroke-width: 9; filter: drop-shadow(0 0 4px #e11d48); }
         }
 
         /* Default: R3R Classic */
