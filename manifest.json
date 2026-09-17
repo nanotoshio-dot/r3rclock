@@ -1,0 +1,17 @@
+{
+  "name": "R3R Clock",
+  "short_name": "R3R Clock",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Relógio Global 24h - PRO Multilanguage + Skins",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

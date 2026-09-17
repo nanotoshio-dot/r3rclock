@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Relógio Global 24h - PRO Multilanguage + Skins</title>
+    <style>
+        /* Temas de Cores (As 10 Skins) */
+        body.skin-cyberpunk {
+            --bg-color: #05050a; --text-main: #00ffcc; --text-dim: #708090;
+            --panel-bg: #0b0b14; --panel-border: #ff007f33; --accent-color: #ff007f;
+            --accent-orange: #00ffcc; --clock-ring: #ff007f; --tick-main: #00ffcc; --tick-sub: #1f1f3a;
+        }
+        body.skin-emerald {
+            --bg-color: #020804; --text-main: #e0f2fe; --text-dim: #64748b;
+            --panel-bg: #06150b; --panel-border: #14532d; --accent-color: #22c55e;
+            --accent-orange: #4ade80; --clock-ring: #22c55e; --tick-main: #4ade80; --tick-sub: #0f2918;
+        }
+        body.skin-crimson {
+            --bg-color: #080202; --text-main: #fee2e2; --text-dim: #7f1d1d;
+            --panel-bg: #150606; --panel-border: #7f1d1d55; --accent-color: #ef4444;
+            --accent-orange: #f87171; --clock-ring: #ef4444; --tick-main: #f87171; --tick-sub: #2d0f0f;
+        }
+        body.skin-solarized {
+            --bg-color: #002b36; --text-main: #839496; --text-dim: #586e75;
+            --panel-bg: #073642; --panel-border: #586e7544; --accent-color: #b58900;
+            --accent-orange: #cb4b16; --clock-ring: #2aa198; --tick-main: #93a1a1; --tick-sub: #0a4856;
+        }
+        body.skin-monochrome {
+            --bg-color: #000000; --text-main: #ffffff; --text-dim: #666666;
+            --panel-bg: #111111; --panel-border: #333333; --accent-color: #ffffff;
+            --accent-orange: #cccccc; --clock-ring: #ffffff; --tick-main: #ffffff; --tick-sub: #222222;
+        }
+        body.skin-sunset {
+            --bg-color: #0d0612; --text-main: #fbcfe8; --text-dim: #9d174d;
+            --panel-bg: #1a0b24; --panel-border: #701a75; --accent-color: #ec4899;
+            --accent-orange: #f43f5e; --clock-ring: #d946ef; --tick-main: #f472b6; --tick-sub: #2e1037;
+        }
+        body.skin-matrix {
+            --bg-color: #000500; --text-main: #4ade80; --text-dim: #166534;
+            --panel-bg: #000d00; --panel-border: #14532d; --accent-color: #22c55e;
+            --accent-orange: #86efac; --clock-ring: #16a34a; --tick-main: #22c55e; --tick-sub: #052e16;
+        }
+        body.skin-ocean {
+            --bg-color: #020617; --text-main: #e2e8f0; --text-dim: #475569;
+            --panel-bg: #090f24; --panel-border: #1e3a8a; --accent-color: #38bdf8;
+            --accent-orange: #0ea5e9; --clock-ring: #0284c7; --tick-main: #38bdf8; --tick-sub: #0f172a;
+        }
+        body.skin-gold {
+            --bg-color: #0a0802; --text-main: #fef08a; --text-dim: #854d0e;
+            --panel-bg: #171305; --panel-border: #713f12; --accent-color: #eab308;
+            --accent-orange: #facc15; --clock-ring: #ca8a04; --tick-main: #fde047; --tick-sub: #2b2308;
+        }
+        /* Default: R3R Classic */
+        body, body.skin-classic {
+            --bg-color: #000000; --text-main: #ffffff; --text-dim: #888888;
+            --panel-bg: #0d0d0d; --panel-border: #222222; --accent-color: #ff6a00;
+            --accent-orange: #ff9800; --clock-ring: #ff6a00; --tick-main: #ffffff; --tick-sub: #444444;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color); color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden; -webkit-text-size-adjust: 100%;
+            display: flex; flex-direction: column; transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .clock-section {
+            display: flex; flex-direction: column;
+            height: calc(100vh - 78px); min-height: 400px;
+            width: 100%; flex-shrink: 0; position: relative;
+        }
+
+        .heatmap-section {
+            display: flex; flex-direction: column;
+            height: calc(100vh - 78px); min-height: 400px;
+            width: 100%; border-top: 1px solid var(--panel-border);
+            background: var(--bg-color); padding: 10px; flex-shrink: 0;
+        }
+
+        .app-container {
+            display: flex; flex-direction: row; justify-content: space-between;
+            align-items: stretch; width: 100%; height: 100%; overflow: hidden;
+        }
+
+        body.cards-only .clock-wrapper { display: none; }
+        body.cards-only .app-container { flex-wrap: wrap; overflow-y: auto; align-content: flex-start; }
+        body.cards-only .side-panel {
+            width: 100% !important; flex: 1 1 100%; flex-direction: row; flex-wrap: wrap;
+            align-content: flex-start; overflow: visible; border: none; height: auto;
+        }
+        body.cards-only .market-card { flex: 1 1 220px; min-width: 200px; padding: 4px 8px; }
+        body.hide-cards .side-panel { display: none; }
+
+        /* PAINÉIS LATERAIS AJUSTADOS (200px) */
+        .side-panel {
+            width: 200px; 
+            height: 100%; display: flex; flex-direction: column;
+            gap: 2px; padding: 4px; background: var(--panel-bg);
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            border-color: var(--panel-border);
+        }
+        .left-panel { border-right: 1px solid var(--panel-border); }
+        .right-panel { border-left: 1px solid var(--panel-border); }
+
+        .clock-wrapper {
+            flex-grow: 1; display: flex; justify-content: center;
+            align-items: center; height: 100%; padding: 0; min-width: 0;
+            position: relative;
+        }
+
+        svg { max-width: 100%; max-height: 100%; aspect-ratio: 1 / 1; display: block; }
+
+        /* Menu de Configurações */
+        .settings-container { 
+            position: absolute; 
+            bottom: 15px; 
+            right: 15px; 
+            z-index: 9999; 
+        }
+        .settings-btn {
+            background: var(--panel-bg); border: 1px solid var(--panel-border);
+            color: var(--text-main); font-size: 1.3rem; padding: 6px 8px;
+            border-radius: 8px; cursor: pointer; transition: 0.2s;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center;
+        }
+        .settings-btn:hover { background: #222; border-color: var(--accent-orange); }
+        .settings-menu {
+            position: absolute; 
+            bottom: 100%; right: 0; margin-bottom: 12px; 
+            background: var(--panel-bg); border: 1px solid var(--panel-border);
+            border-radius: 6px; padding: 12px; display: none; flex-direction: column;
+            gap: 12px; box-shadow: 0px -8px 24px rgba(0,0,0,0.9); min-width: 170px;
+        }
+        .settings-menu.show { display: flex; }
+        .settings-menu .setting-item { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: #aaaaaa; font-size: 0.72rem; }
+        .settings-menu select, .settings-menu input[type="range"], .settings-menu input[type="checkbox"] { accent-color: var(--accent-color); }
+        .settings-menu select {
+            background: transparent; color: var(--accent-orange); border: none; border-bottom: 1px dashed var(--accent-orange);
+            font-size: 0.72rem; padding: 2px 4px; cursor: pointer; max-width: 100px;
+        }
+        .settings-menu select:focus { outline: none; }
+        .settings-menu input[type="range"] { width: 60px; cursor: pointer; }
+        .settings-menu label { cursor: pointer; white-space: nowrap; }
+
+        /* Partes do Relógio */
+        .market-arc { fill: none; stroke-width: 6; stroke-linecap: butt; transition: stroke 0.4s ease; }
+        .guide-ring { fill: none; stroke: var(--panel-border); stroke-width: 6; }
+        .preopen-arc { fill: none; stroke: #4a4a4a; stroke-width: 6; stroke-linecap: butt; }
+        .market-arc.closed { stroke: #2a2a2a !important; }
+
+        .arc-text { font-family: -apple-system, sans-serif; font-size: 7.0px; font-weight: bold; fill: var(--text-main); letter-spacing: 0.6px; pointer-events: none; }
+        .sun-icon circle { fill: #ffd54f; }
+        .sun-icon.dim circle { fill: #777777; }
+
+        .tick-line { stroke: var(--tick-main); }
+        .tick-line-sub { stroke: var(--tick-sub); }
+        .hour-text { fill: var(--accent-orange); font-size: 13px; font-weight: bold; text-anchor: middle; dominant-baseline: central; }
+        .minute-text { fill: var(--text-dim); font-size: 7.5px; text-anchor: middle; dominant-baseline: central; }
+        
+        .center-text-large { fill: var(--text-main); font-size: 20px; font-weight: bold; text-anchor: middle; }
+        .center-text-orange { fill: var(--accent-orange); font-size: 8.5px; font-weight: bold; text-anchor: middle; letter-spacing: 1px; }
+        .center-text-small { fill: var(--text-dim); font-size: 8.5px; text-anchor: middle; letter-spacing: 2px; }
+        .center-numbers { fill: var(--text-main); font-size: 7px; text-anchor: middle; dominant-baseline: central; }
+
+        .hand { stroke-linecap: round; transform-origin: 250px 250px; }
+        #hourHand { stroke: var(--text-main); stroke-width: 3; }
+        #minuteHand { stroke: var(--text-dim); stroke-width: 2; }
+        #secondHand { stroke: #ff3333; stroke-width: 1; }
+
+        /* CARDS PROPORCIONAIS E LELEGÍVEIS (MEDIDA IDEAL) */
+        .market-card {
+            background: var(--panel-bg); border: 1px solid var(--panel-border);
+            border-radius: 4px; padding: 3px 5px; display: flex;
+            flex-direction: column; justify-content: center; gap: 2px;
+            flex: 1 1 0; min-height: 44px; overflow: hidden;
+        }
+        .market-card .card-top { display: flex; align-items: baseline; gap: 4px; overflow: hidden; min-width: 0; }
+        .market-card .swatch { display: inline-block; width: 6px; height: 6px; border-radius: 2px; flex-shrink: 0; align-self: center; }
+        
+        .market-card h3 { margin: 0; font-size: 0.58rem; color: var(--text-main); white-space: nowrap; flex-shrink: 0; min-width: 0; }
+        .market-card .country { font-size: 0.48rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex-shrink: 1; }
+        
+        .market-card .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 3px; }
+        .status-badge { font-size: 0.39rem; padding: 1px 3px; border-radius: 2px; font-weight: bold; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+        .card-open .status-badge { background: #1b3320; color: #4ade80; border: 1px solid #28a745; }
+        .card-closed .status-badge { background: #331b1b; color: #ff6b6b; border: 1px solid #dc3545; }
+        
+        .market-card .card-timer { display: flex; align-items: baseline; gap: 3px; flex-shrink: 0; }
+        .countdown-label { font-size: 0.36rem; color: var(--text-dim); text-transform: uppercase; }
+        .countdown-timer { font-family: 'Courier New', Courier, monospace; font-size: 0.58rem; font-weight: bold; color: #00d2ff; white-space: nowrap; }
+        .card-open .countdown-timer { color: var(--accent-orange); } 
+
+        /* ALARMES COM TAMANHO PERFEITO */
+        .card-alarms { display: flex; align-items: center; justify-content: space-between; gap: 2px; margin-top: 1px; padding-top: 1px; border-top: 1px solid var(--panel-border); }
+        .alarm-control { display: flex; align-items: center; gap: 3px; flex: 1 1 0; min-width: 0; }
+        .alarm-bell { background: none; border: none; cursor: pointer; font-size: 0.58rem; line-height: 1; padding: 1px; opacity: 0.35; filter: grayscale(1); transition: opacity 0.2s ease; flex-shrink: 0; }
+        .alarm-bell.active { opacity: 1; filter: none; }
+        .alarm-bell.ringing { animation: bell-ring 0.4s ease-in-out 3; }
+        @keyframes bell-ring { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(18deg); } 75% { transform: rotate(-18deg); } }
+        
+        .alarm-label { font-size: 0.38rem; color: var(--text-dim); text-transform: uppercase; flex-shrink: 0; }
+        .alarm-minutes { background: transparent; color: var(--text-dim); border: none; border-bottom: 1px dashed var(--text-dim); font-size: 0.45rem; padding: 0; width: 28px; cursor: pointer; }
+        .alarm-bell.active + .alarm-minutes, .alarm-bell.active ~ .alarm-minutes { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
+
+        .ticker-tape-wrapper {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 78px; 
+            background: var(--panel-bg); border-top: 1px solid var(--panel-border);
+            z-index: 9999; display: block; overflow: hidden; box-shadow: 0px -2px 10px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            body, html { overflow-y: auto; }
+            .app-container { flex-direction: column; }
+            .side-panel { width: 100% !important; height: 110px; flex-direction: row; overflow-x: auto; flex-shrink: 0; }
+            .market-card { min-width: 195px; flex: 0 0 auto; }
+            .clock-section { height: auto; min-height: 55vh; }
+            .clock-wrapper { width: 100%; height: 50vh; }
+        }
+    </style>
+</head>
+<body class="skin-classic">
+
+    <section class="clock-section">
+        <div class="app-container">
+            <div class="side-panel left-panel" id="leftPanel"></div>
+
+            <div class="clock-wrapper">
+                <svg id="clockSvg" viewBox="0 0 500 500">
+                    <defs></defs>
+                    <circle cx="250" cy="250" r="250" fill="var(--bg-color)" />
+                    <g id="dialGroup"></g>
+                    <g id="guideRingsGroup"></g>
+                    <g id="preopenGroup"></g>
+                    <g id="arcsGroup"></g>
+                    <g id="iconsGroup"></g>
+                    <circle cx="250" cy="250" r="58" fill="none" stroke="var(--accent-color)" stroke-width="1.5" stroke-dasharray="3, 3"/>
+                    <circle cx="250" cy="250" r="51" fill="none" stroke="var(--panel-border)" stroke-width="1"/>
+                    <g id="innerNumbersGroup"></g>
+                    <circle cx="250" cy="250" r="35" fill="none" stroke="var(--accent-color)" stroke-width="1" stroke-dasharray="2, 2"/>
+                    
+                    <text x="250" y="240" class="center-text-large">R3R</text>
+                    <text x="250" y="255" class="center-text-orange">CLOCK 24</text>
+                    <text x="250" y="268" class="center-text-small" id="tzLabel">UTC</text>
+
+                    <line id="hourHand" class="hand" x1="250" y1="250" x2="250" y2="100" />
+                    <line id="minuteHand" class="hand" x1="250" y1="250" x2="250" y2="75" />
+                    <line id="secondHand" class="hand" x1="250" y1="250" x2="250" y2="60" />
+                    
+                    <circle cx="250" cy="250" r="4" fill="var(--text-dim)" stroke="var(--text-main)" stroke-width="1.5"/>
+                    <circle cx="250" cy="250" r="1.5" fill="#ff3333" />
+                </svg>
+
+                <div class="settings-container" id="settingsContainer">
+                    <button class="settings-btn" id="settingsBtn" title="Configurações">⚙️</button>
+                    <div class="settings-menu" id="settingsMenu">
+                        <div class="setting-item">
+                            <label for="langSelect" id="lbl-lang">Idioma:</label>
+                            <select id="langSelect">
+                                <option value="pt">PT</option>
+                                <option value="es">ES</option>
+                                <option value="en">EN</option>
+                                <option value="fr">FR</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="skinSelect" id="lbl-skin">Skin:</label>
+                            <select id="skinSelect">
+                                <option value="skin-classic">R3R Classic</option>
+                                <option value="skin-cyberpunk">Cyberpunk</option>
+                                <option value="skin-emerald">Emerald Green</option>
+                                <option value="skin-crimson">Crimson Dark</option>
+                                <option value="skin-solarized">Solarized</option>
+                                <option value="skin-monochrome">Monochrome</option>
+                                <option value="skin-sunset">Sunset Glow</option>
+                                <option value="skin-matrix">Matrix Code</option>
+                                <option value="skin-ocean">Deep Ocean</option>
+                                <option value="skin-gold">Royal Gold</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="tzSelect" id="lbl-tz">Fuso:</label>
+                            <select id="tzSelect"></select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="volumeRange" id="lbl-vol">Vol:</label>
+                            <input type="range" id="volumeRange" min="0" max="1" step="0.05" value="0.8">
+                        </div>
+                        <div class="setting-item">
+                            <label for="layoutSelect" id="lbl-layout">Layout:</label>
+                            <select id="layoutSelect">
+                                <option value="full" id="opt-full">Completo</option>
+                                <option value="cards" id="opt-cards">Só Cards</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="toggleCards" id="lbl-toggle">Cards</label>
+                            <input type="checkbox" id="toggleCards" checked>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="side-panel right-panel" id="rightPanel"></div>
+        </div>
+    </section>
+
+    <section class="heatmap-section">
+        <div class="tradingview-widget-container" style="height: 100%; width: 100%;">
+            <div class="tradingview-widget-container__widget" style="height: 100%; width: 100%;"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+            {
+              "exchanges": [], "dataSource": "SPX500", "grouping": "sector",
+              "blockSize": "market_cap_basic", "blockColor": "change", "locale": "br",
+              "symbolUrl": "", "colorTheme": "dark", "hasTopBar": true,
+              "isDataSetEnabled": false, "isZoomEnabled": false, "hasSymbolTooltip": true,
+              "width": "100%", "height": "100%"
+            }
+            </script>
+        </div>
+    </section>
+
+    <div class="ticker-tape-wrapper">
+        <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
+        <tv-ticker-tape 
+            symbols="FOREXCOM:SPXUSD,FOREXCOM:NSXUSD,FOREXCOM:DJI,FX:EURUSD,FX:GBPUSD,FX:USDJPY,FX:AUDUSD,FX:USDCAD,CMCMARKETS:GOLD,TVC:USOIL,BITSTAMP:BTCUSD,BITSTAMP:ETHUSD,BINANCE:SOLUSDT,BINANCE:BNBUSDT" 
+            theme="dark">
+        </tv-ticker-tape>
+    </div>
+
+    <script>
+        const i18n = {
+            pt: { lang: "Idioma:", skin: "Skin:", tz: "Fuso:", vol: "Vol:", layout: "Layout:", full: "Completo", cardsOnly: "Só Cards", toggleCards: "Cards", open: "ABERTO", closed: "FECHADO", opensIn: "Abre em", closesIn: "Fecha em", lblOpen: "Abre", lblClose: "Fecha" },
+            es: { lang: "Idioma:", skin: "Skin:", tz: "Huso:", vol: "Vol:", layout: "Diseño:", full: "Completo", cardsOnly: "Solo Tarjetas", toggleCards: "Tarjetas", open: "ABIERTO", closed: "CERRADO", opensIn: "Abre en", closesIn: "Cierra en", lblOpen: "Abre", lblClose: "Cierra" },
+            en: { lang: "Lang:", skin: "Skin:", tz: "TZ:", vol: "Vol:", layout: "Layout:", full: "Full", cardsOnly: "Cards Only", toggleCards: "Cards", open: "OPEN", closed: "CLOSED", opensIn: "Opens in", closesIn: "Closes in", lblOpen: "Open", lblClose: "Close" },
+            fr: { lang: "Langue:", skin: "Skin:", tz: "Fuseau:", vol: "Vol:", layout: "Vue:", full: "Complet", cardsOnly: "Cartes", toggleCards: "Cartes", open: "OUVERT", closed: "FERMÉ", opensIn: "Ouvre dans", closesIn: "Ferme dans", lblOpen: "Ouvre", lblClose: "Ferme" }
+        };
+
+        let currentLang = localStorage.getItem('r3r_lang_v4') || 'pt';
+        if (!i18n[currentLang]) { currentLang = 'pt'; }
+
+        const markets = [
+            { id: 'wellington', name: 'NZX', color: '#f57c00', country: { pt: 'Nova Zelândia', es: 'Nueva Zelanda', en: 'New Zealand', fr: 'Nouvelle-Zélande' }, sessions: [{ open: 22.0, close: 4.75 }] },
+            { id: 'sydney', name: 'ASX', color: '#fb8c00', country: { pt: 'Austrália', es: 'Australia', en: 'Australia', fr: 'Australie' }, sessions: [{ open: 23.83, close: 6.0 }] },
+            { id: 'tokyo', name: 'TSE-JP', color: '#e53935', country: { pt: 'Japão', es: 'Japón', en: 'Japan', fr: 'Japon' }, sessions: [{ open: 0.0, close: 6.0 }], preOpen: { open: 23.0, close: 24.0 } },
+            { id: 'shenzhen', name: 'SZSE', color: '#ef5350', country: { pt: 'China', es: 'China', en: 'China', fr: 'Chine' }, sessions: [{ open: 1.5, close: 3.5 }, { open: 5.0, close: 7.0 }], preOpen: { open: 1.25, close: 1.5 } },
+            { id: 'hongkong', name: 'HKEX', color: '#c62828', country: { pt: 'Hong Kong', es: 'Hong Kong', en: 'Hong Kong', fr: 'Hong Kong' }, sessions: [{ open: 1.5, close: 4.0 }, { open: 5.0, close: 8.0 }], preOpen: { open: 1.0, close: 1.5 } },
+            { id: 'nse', name: 'NSE', color: '#fdd835', country: { pt: 'Índia', es: 'India', en: 'India', fr: 'Inde' }, sessions: [{ open: 3.75, close: 10.0 }], preOpen: { open: 3.5, close: 3.75 } },
+            { id: 'singapore', name: 'SGX', color: '#00acc1', country: { pt: 'Singapura', es: 'Singapur', en: 'Singapore', fr: 'Singapour' }, sessions: [{ open: 1.0, close: 4.0 }, { open: 5.0, close: 9.0 }], preOpen: { open: 0.5, close: 1.0 } },
+            { id: 'dubai', name: 'DFM', color: '#8e24aa', country: { pt: 'Emirados Árabes', es: 'Emiratos Árabes', en: 'UAE', fr: 'Émirats arabes' }, sessions: [{ open: 6.0, close: 10.75 }], preOpen: { open: 5.5, close: 6.0 } },
+            { id: 'moscow', name: 'MOEX', color: '#1976d2', country: { pt: 'Rússia', es: 'Rusia', en: 'Russia', fr: 'Russie' }, sessions: [{ open: 7.0, close: 15.666 }] },
+            { id: 'tadawul', name: 'TADAWUL', color: '#00695c', country: { pt: 'Arábia Saudita', es: 'Arabia Saudita', en: 'Saudi Arabia', fr: 'Arabie saoudite' }, sessions: [{ open: 7.0, close: 12.0 }], preOpen: { open: 6.5, close: 7.0 }, weekendDays: [5, 6] },
+            { id: 'frankfurt', name: 'FRANKFURT', color: '#1565c0', country: { pt: 'Alemanha', es: 'Alemania', en: 'Germany', fr: 'Allemagne' }, sessions: [{ open: 7.0, close: 15.5 }], preOpen: { open: 6.0, close: 7.0 } },
+            { id: 'euronext', name: 'EURONEXT', color: '#0d47a1', country: { pt: 'França', es: 'Francia', en: 'France', fr: 'France' }, sessions: [{ open: 7.0, close: 15.5 }], preOpen: { open: 5.25, close: 7.0 } },
+            { id: 'six', name: 'SIX', color: '#283593', country: { pt: 'Suíça', es: 'Suiza', en: 'Switzerland', fr: 'Suisse' }, sessions: [{ open: 7.0, close: 15.5 }] },
+            { id: 'oslo', name: 'OSLO', color: '#3949ab', country: { pt: 'Noruega', es: 'Noruega', en: 'Norway', fr: 'Norvège' }, sessions: [{ open: 7.0, close: 14.5 }] },
+            { id: 'london', name: 'LSE', color: '#1a237e', country: { pt: 'Reino Unido', es: 'Reino Unido', en: 'United Kingdom', fr: 'Royaume-Uni' }, sessions: [{ open: 7.0, close: 15.5 }] },
+            { id: 'johannesburg', name: 'JSE', color: '#6d4c41', country: { pt: 'África do Sul', es: 'Sudáfrica', en: 'South Africa', fr: 'Afrique du Sud' }, sessions: [{ open: 7.0, close: 15.0 }] },
+            { id: 'iceland', name: 'ICEX', color: '#00838f', country: { pt: 'Islândia', es: 'Islandia', en: 'Iceland', fr: 'Islande' }, sessions: [{ open: 9.5, close: 15.5 }] },
+            { id: 'saopaulo', name: 'B3', color: '#388e3c', country: { pt: 'Brasil', es: 'Brasil', en: 'Brazil', fr: 'Brésil' }, sessions: [{ open: 13.0, close: 20.0 }] },
+            { id: 'newyork', name: 'NYSE', color: '#2e7d32', country: { pt: 'Estados Unidos', es: 'EE. UU.', en: 'United States', fr: 'États-Unis' }, sessions: [{ open: 13.5, close: 20.0 }] },
+            { id: 'toronto', name: 'TSX', color: '#43a047', country: { pt: 'Canadá', es: 'Canadá', en: 'Canada', fr: 'Canada' }, sessions: [{ open: 13.5, close: 20.0 }] }
+        ];
+
+        const OUTER_RADIUS = 213, INNER_RADIUS = 68;
+        const radiusStep = (OUTER_RADIUS - INNER_RADIUS) / (markets.length - 1);
+        markets.forEach((m, i) => { m.radius = OUTER_RADIUS - (i * radiusStep); });
+
+        const cx = 250, cy = 250;
+        let tzOffset = 0, alarmVolume = 0.8;
+
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return { x: centerX + (radius * Math.cos(angleInRadians)), y: centerY + (radius * Math.sin(angleInRadians)) };
+        }
+
+        function describeArc(x, y, radius, startAngle, endAngle) {
+            const start = polarToCartesian(x, y, radius, endAngle);
+            const end = polarToCartesian(x, y, radius, startAngle);
+            const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+            return [ "M", start.x, start.y, "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y ].join(" ");
+        }
+
+        function describeTextPath(x, y, radius, startAngle, endAngle) {
+            const start = polarToCartesian(x, y, radius, startAngle);
+            const end = polarToCartesian(x, y, radius, endAngle);
+            const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+            return [ "M", start.x, start.y, "A", radius, radius, 0, largeArcFlag, 1, end.x, end.y ].join(" ");
+        }
+
+        function sunIcon(pos, extraClass) {
+            return `<g class="sun-icon ${extraClass || ''}"><circle cx="${pos.x}" cy="${pos.y}" r="2.1" opacity="0.9" /></g>`;
+        }
+
+        function renderDial() {
+            const dialGroup = document.getElementById('dialGroup');
+            const innerNumbersGroup = document.getElementById('innerNumbersGroup');
+            let dialHTML = '';
+            for(let i = 0; i < 144; i++) { 
+                const angle = i * 2.5;
+                const isHour = (i % 6 === 0);
+                const start = polarToCartesian(cx, cy, isHour ? 238 : 243, angle);
+                const end = polarToCartesian(cx, cy, 248, angle);
+                
+                dialHTML += `<line x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}" class="${isHour ? 'tick-line' : 'tick-line-sub'}" stroke-width="${isHour ? 2 : 1}"/>`;
+                if(isHour) {
+                    const rawHour = i / 6; 
+                    let displayHour = ((rawHour + tzOffset) % 24 + 24) % 24;
+                    if(displayHour === 0) displayHour = 24;
+                    const textPosHour = polarToCartesian(cx, cy, 230, angle);
+                    dialHTML += `<text x="${textPosHour.x}" y="${textPosHour.y}" class="hour-text" transform="rotate(${angle}, ${textPosHour.x}, ${textPosHour.y})">${displayHour}</text>`;
+                    let displayMin = (rawHour * 60 / 24) % 60;
+                    if(rawHour % 2 !== 0) { 
+                        if(displayMin === 0) displayMin = 60;
+                        const textPosMin = polarToCartesian(cx, cy, 218, angle);
+                        dialHTML += `<text x="${textPosMin.x}" y="${textPosMin.y}" class="minute-text" transform="rotate(${angle}, ${textPosMin.x}, ${textPosMin.y})">${displayMin}</text>`;
+                    }
+                }
+            }
+            dialGroup.innerHTML = dialHTML;
+            let innerNumHTML = '';
+            [24, 1, 2, 3, 4, 5, 6, 8, 10, 12, 13, 14, 16, 19, 20, 21, 23].forEach(rawH => {
+                let displayH = ((rawH + tzOffset) % 24 + 24) % 24;
+                if (displayH === 0) displayH = 24;
+                const pos = polarToCartesian(cx, cy, 44, rawH * 15);
+                innerNumHTML += `<text x="${pos.x}" y="${pos.y}" class="center-numbers">${displayH}</text>`;
+            });
+            innerNumbersGroup.innerHTML = innerNumHTML;
+            const tzLabelEl = document.getElementById('tzLabel');
+            if (tzLabelEl) tzLabelEl.textContent = tzOffset === 0 ? 'UTC' : `UTC${tzOffset > 0 ? '+' : ''}${tzOffset}`;
+        }
+
+        const ALARM_MINUTE_OPTIONS = [1, 5, 10, 15, 30];
+        const alarmMinuteOptionsHTML = ALARM_MINUTE_OPTIONS.map(v => `<option value="${v}">${v}m</option>`).join('');
+        const ALARM_STORAGE_KEY = 'r3r_market_alarms_v2';
+
+        function loadAlarmState() { try { const raw = localStorage.getItem(ALARM_STORAGE_KEY); return raw ? JSON.parse(raw) : {}; } catch (e) { return {}; } }
+        function saveAlarmState() { try { localStorage.setItem(ALARM_STORAGE_KEY, JSON.stringify(alarmState)); } catch (e) {} }
+
+        let alarmState = loadAlarmState();
+
+        function getAlarmEntry(marketId, type) {
+            if (!alarmState[marketId]) alarmState[marketId] = {};
+            if (!alarmState[marketId][type]) { alarmState[marketId][type] = { enabled: true, minutes: type === 'open' ? 5 : 10, lastFiredTarget: null }; }
+            return alarmState[marketId][type];
+        }
+
+        let audioCtx = null;
+        function getAudioCtx() {
+            if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playSoftChime() {
+            const ctx = getAudioCtx(); const now = ctx.currentTime;
+            [880, 1108.73].forEach((freq, i) => {
+                const osc = ctx.createOscillator(); const gain = ctx.createGain();
+                osc.type = 'sine'; osc.frequency.value = freq;
+                const start = now + i * 0.14;
+                gain.gain.setValueAtTime(0, start);
+                gain.gain.linearRampToValueAtTime(0.16 * alarmVolume, start + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.9);
+                osc.connect(gain).connect(ctx.destination);
+                osc.start(start); osc.stop(start + 0.95);
+            });
+        }
+
+        function triggerAlarm(marketId, type) {
+            playSoftChime();
+            const bell = document.getElementById(`bell-${type}-${marketId}`);
+            if (bell) { bell.classList.add('ringing'); setTimeout(() => bell.classList.remove('ringing'), 1300); }
+        }
+
+        function applyAlarmUIState(marketId, type) {
+            const entry = getAlarmEntry(marketId, type);
+            const bell = document.getElementById(`bell-${type}-${marketId}`);
+            const select = document.getElementById(`mins-${type}-${marketId}`);
+            if (bell) bell.classList.toggle('active', entry.enabled);
+            if (select) select.value = String(entry.minutes);
+        }
+
+        function setupAlarmControls() {
+            document.querySelectorAll('.alarm-bell').forEach(btn => {
+                const handleActivation = (e) => {
+                    e.preventDefault();
+                    const marketId = btn.dataset.market, type = btn.dataset.type;
+                    const entry = getAlarmEntry(marketId, type);
+                    entry.enabled = !entry.enabled; entry.lastFiredTarget = null;
+                    if (entry.enabled) { try { getAudioCtx(); } catch (e) {} }
+                    saveAlarmState(); applyAlarmUIState(marketId, type);
+                };
+                btn.addEventListener('click', handleActivation);
+                btn.addEventListener('touchend', handleActivation);
+            });
+            document.querySelectorAll('.alarm-minutes').forEach(sel => {
+                sel.addEventListener('change', () => {
+                    const marketId = sel.dataset.market, type = sel.dataset.type;
+                    const entry = getAlarmEntry(marketId, type);
+                    entry.minutes = parseInt(sel.value, 10); entry.lastFiredTarget = null;
+                    saveAlarmState();
+                });
+            });
+            markets.forEach(m => { applyAlarmUIState(m.id, 'open'); applyAlarmUIState(m.id, 'close'); });
+            saveAlarmState();
+        }
+
+        function checkMarketAlarms(market, status, totalS, now) {
+            const type = status.isOpen ? 'close' : 'open';
+            const entry = getAlarmEntry(market.id, type);
+            if (!entry.enabled) return;
+            const targetKey = Math.round((now.getTime() + status.diffMs) / 1000);
+            if (totalS === (entry.minutes * 60) && entry.lastFiredTarget !== targetKey) {
+                entry.lastFiredTarget = targetKey; saveAlarmState(); triggerAlarm(market.id, type);
+            }
+        }
+
+        function initInterface() {
+            const arcsGroup = document.getElementById('arcsGroup'), guideGroup = document.getElementById('guideRingsGroup');
+            const preopenGroup = document.getElementById('preopenGroup'), iconsGroup = document.getElementById('iconsGroup');
+            const svgDefs = document.querySelector('defs'), leftPanel = document.getElementById('leftPanel'), rightPanel = document.getElementById('rightPanel');
+
+            renderDial();
+            let arcsHTML = '', guideHTML = '', preopenHTML = '', defsHTML = '', iconsHTML = '', leftCardsHTML = '', rightCardsHTML = '';
+            
+            const t = i18n[currentLang];
+
+            markets.forEach((m, index) => {
+                guideHTML += `<circle cx="${cx}" cy="${cy}" r="${m.radius}" class="guide-ring" />`;
+                m.sessions.forEach((session, sIdx) => {
+                    let sDeg = session.open * 15, eDeg = session.close * 15;
+                    if (eDeg <= sDeg) eDeg += 360;
+                    arcsHTML += `<path id="arc-${m.id}-${sIdx}" d="${describeArc(cx, cy, m.radius, sDeg, eDeg)}" class="market-arc closed" data-color="${m.color}"></path>`;
+                    if (sIdx === 0) {
+                        defsHTML += `<path id="tpath-${m.id}" d="${describeTextPath(cx, cy, m.radius, sDeg, eDeg)}" />\n`;
+                        arcsHTML += `<text class="arc-text"><textPath href="#tpath-${m.id}" startOffset="2%" dy="4.5">${m.name}</textPath></text>`;
+                    }
+                    iconsHTML += sunIcon(polarToCartesian(cx, cy, m.radius, sDeg)) + sunIcon(polarToCartesian(cx, cy, m.radius, eDeg), 'dim');
+                });
+                if (m.preOpen) {
+                    let pDeg = m.preOpen.open * 15, pEndDeg = m.preOpen.close * 15;
+                    if (pEndDeg <= pDeg) pEndDeg += 360;
+                    preopenHTML += `<path d="${describeArc(cx, cy, m.radius, pDeg, pEndDeg)}" class="preopen-arc"></path>`;
+                }
+                const countryName = (typeof m.country === 'object') ? m.country[currentLang] : m.country;
+                const cardHTML = `
+                    <div class="market-card card-closed" id="card-${m.id}">
+                        <div class="card-top"><span class="swatch" style="background:${m.color}"></span><h3>${m.name}</h3><span class="country" id="country-${m.id}">${countryName}</span></div>
+                        <div class="card-bottom">
+                            <div class="status-badge" id="badge-${m.id}">${t.closed}</div>
+                            <div class="card-timer"><span class="countdown-label" id="label-${m.id}">${t.opensIn}</span><span class="countdown-timer" id="timer-${m.id}">--h --m --s</span></div>
+                        </div>
+                        <div class="card-alarms">
+                            <div class="alarm-control"><button class="alarm-bell" id="bell-open-${m.id}" data-market="${m.id}" data-type="open">🔔</button><span class="alarm-label" id="lbl-open-${m.id}">${t.lblOpen}</span><select class="alarm-minutes" id="mins-open-${m.id}" data-market="${m.id}" data-type="open">${alarmMinuteOptionsHTML}</select></div>
+                            <div class="alarm-control"><button class="alarm-bell" id="bell-close-${m.id}" data-market="${m.id}" data-type="close">🔔</button><span class="alarm-label" id="lbl-close-${m.id}">${t.lblClose}</span><select class="alarm-minutes" id="mins-close-${m.id}" data-market="${m.id}" data-type="close">${alarmMinuteOptionsHTML}</select></div>
+                        </div>
+                    </div>`;
+                if (index < 10) leftCardsHTML += cardHTML; else rightCardsHTML += cardHTML;
+            });
+            svgDefs.innerHTML = defsHTML; guideGroup.innerHTML = guideHTML; preopenGroup.innerHTML = preopenHTML;
+            arcsGroup.innerHTML = arcsHTML; iconsGroup.innerHTML = iconsHTML;
+            leftPanel.innerHTML = leftCardsHTML; rightPanel.innerHTML = rightCardsHTML;
+        }
+
+        function updateUITexts() {
+            const t = i18n[currentLang];
+            
+            const lblLang = document.getElementById('lbl-lang');
+            const lblSkin = document.getElementById('lbl-skin');
+            const lblTz = document.getElementById('lbl-tz');
+            const lblVol = document.getElementById('lbl-vol');
+            const lblLayout = document.getElementById('lbl-layout');
+            const optFull = document.getElementById('opt-full');
+            const optCards = document.getElementById('opt-cards');
+            const lblToggle = document.getElementById('lbl-toggle');
+
+            if (lblLang) lblLang.textContent = t.lang;
+            if (lblSkin) lblSkin.textContent = t.skin;
+            if (lblTz) lblTz.textContent = t.tz;
+            if (lblVol) lblVol.textContent = t.vol;
+            if (lblLayout) lblLayout.textContent = t.layout;
+            if (optFull) optFull.textContent = t.full;
+            if (optCards) optCards.textContent = t.cardsOnly;
+            if (lblToggle) lblToggle.textContent = t.toggleCards;
+
+            markets.forEach(m => {
+                const elCountry = document.getElementById(`country-${m.id}`);
+                const elOpen = document.getElementById(`lbl-open-${m.id}`);
+                const elClose = document.getElementById(`lbl-close-${m.id}`);
+                
+                if (elCountry) elCountry.textContent = (typeof m.country === 'object') ? m.country[currentLang] : m.country;
+                if (elOpen) elOpen.textContent = t.lblOpen;
+                if (elClose) elClose.textContent = t.lblClose;
+            });
+        }
+
+        function toUTCDateOnly(d) { return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())); }
+        function isTradingDay(dayDate, market) { return !(market.weekendDays || [0, 6]).includes(dayDate.getUTCDay()); }
+        function isTradingDayForSession(dayDate, session, market) {
+            return isTradingDay(session.close <= session.open ? new Date(dayDate.getTime() + 86400000) : dayDate, market);
+        }
+        function sessionTimes(dayDate, session) {
+            const openTime = new Date(dayDate.getTime()); openTime.setUTCHours(Math.floor(session.open), Math.round((session.open % 1) * 60), 0, 0);
+            const closeTime = new Date(dayDate.getTime());
+            if (session.close <= session.open) closeTime.setUTCDate(closeTime.getUTCDate() + 1);
+            closeTime.setUTCHours(Math.floor(session.close), Math.round((session.close % 1) * 60), 0, 0);
+            return { open: openTime, close: closeTime };
+        }
+        function isSessionCurrentlyOpen(market, session, now) {
+            const today = toUTCDateOnly(now), yesterday = new Date(today.getTime() - 86400000);
+            if (isTradingDayForSession(yesterday, session, market)) { const c = sessionTimes(yesterday, session); if (now >= c.open && now < c.close) return true; }
+            if (isTradingDayForSession(today, session, market)) { const c = sessionTimes(today, session); if (now >= c.open && now < c.close) return true; }
+            return false;
+        }
+
+        function calculateMarketStatus(market, now) {
+            const today = toUTCDateOnly(now), yesterday = new Date(today.getTime() - 86400000), candidates = [];
+            market.sessions.forEach(s => {
+                if (isTradingDayForSession(yesterday, s, market)) candidates.push(sessionTimes(yesterday, s));
+                if (isTradingDayForSession(today, s, market)) candidates.push(sessionTimes(today, s));
+            });
+            for (const c of candidates) { if (now >= c.open && now < c.close) return { isOpen: true, diffMs: c.close.getTime() - now.getTime() }; }
+            const futureOpens = candidates.map(c => c.open.getTime()).filter(t => t > now.getTime());
+            if (futureOpens.length) return { isOpen: false, diffMs: Math.min(...futureOpens) - now.getTime() };
+            for (let i = 1; i <= 8; i++) {
+                const d = new Date(today.getTime() + i * 86400000);
+                const opens = market.sessions.filter(s => isTradingDayForSession(d, s, market)).map(s => sessionTimes(d, s).open.getTime());
+                if (opens.length) return { isOpen: false, diffMs: Math.min(...opens) - now.getTime() };
+            }
+            return { isOpen: false, diffMs: 0 };
+        }
+
+        function updateClock() {
+            const now = new Date(), h = now.getUTCHours(), m = now.getUTCMinutes(), s = now.getUTCSeconds(), ms = now.getUTCMilliseconds();
+            const currentDecimalHour = h + (m / 60) + (s / 3600);
+            document.getElementById('hourHand').style.transform = `rotate(${currentDecimalHour * 15}deg)`;
+            document.getElementById('minuteHand').style.transform = `rotate(${(m + s/60 + ms/60000) * 6}deg)`;
+            document.getElementById('secondHand').style.transform = `rotate(${(s + ms/1000) * 6}deg)`;
+
+            const t = i18n[currentLang];
+
+            markets.forEach(market => {
+                market.sessions.forEach((session, sIdx) => {
+                    const arcEl = document.getElementById(`arc-${market.id}-${sIdx}`);
+                    if (!arcEl) return;
+                    if (isSessionCurrentlyOpen(market, session, now)) {
+                        arcEl.classList.remove('closed'); arcEl.style.stroke = arcEl.getAttribute('data-color');
+                    } else { arcEl.classList.add('closed'); }
+                });
+
+                const status = calculateMarketStatus(market, now);
+                const cardEl = document.getElementById(`card-${market.id}`);
+                const badgeEl = document.getElementById(`badge-${market.id}`);
+                const labelEl = document.getElementById(`label-${market.id}`);
+                const timerEl = document.getElementById(`timer-${market.id}`);
+
+                if (status.isOpen) { 
+                    cardEl.className = 'market-card card-open'; 
+                    badgeEl.textContent = t.open; 
+                    labelEl.textContent = t.closesIn; 
+                } else { 
+                    cardEl.className = 'market-card card-closed'; 
+                    badgeEl.textContent = t.closed; 
+                    labelEl.textContent = t.opensIn; 
+                }
+
+                const totalS = Math.floor(status.diffMs / 1000), d = Math.floor(totalS / 86400), hh = Math.floor((totalS % 86400) / 3600), mm = Math.floor((totalS % 3600) / 60), ss = totalS % 60;
+                timerEl.textContent = (d > 0 ? `${d}d ` : '') + `${hh.toString().padStart(2, '0')}h ${mm.toString().padStart(2, '0')}m ${ss.toString().padStart(2, '0')}s`;
+                checkMarketAlarms(market, status, totalS, now);
+            });
+            requestAnimationFrame(updateClock); 
+        }
+
+        function setupSettingsBar() {
+            const toggleBtn = document.getElementById('settingsBtn');
+            const dropdown = document.getElementById('settingsMenu');
+
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('settingsContainer').contains(e.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+
+            const langSelect = document.getElementById('langSelect');
+            langSelect.value = currentLang;
+            langSelect.addEventListener('change', (e) => {
+                currentLang = e.target.value;
+                localStorage.setItem('r3r_lang_v4', currentLang);
+                updateUITexts(); 
+            });
+
+            const skinSelect = document.getElementById('skinSelect');
+            const savedSkin = localStorage.getItem('r3r_skin') || 'skin-classic';
+            document.body.className = savedSkin;
+            skinSelect.value = savedSkin;
+            skinSelect.addEventListener('change', (e) => {
+                const chosenSkin = e.target.value;
+                document.body.className = chosenSkin;
+                localStorage.setItem('r3r_skin', chosenSkin);
+            });
+
+            const tzSelect = document.getElementById('tzSelect');
+            let tzOptionsHTML = '';
+            for (let off = -12; off <= 14; off++) {
+                tzOptionsHTML += `<option value="${off}" ${off === 0 ? 'selected' : ''}>${off === 0 ? 'UTC+0' : `UTC${off > 0 ? '+' : ''}${off}`}</option>`;
+            }
+            tzSelect.innerHTML = tzOptionsHTML;
+            tzSelect.addEventListener('change', (e) => { tzOffset = parseInt(e.target.value, 10); renderDial(); });
+
+            const volumeRange = document.getElementById('volumeRange');
+            volumeRange.addEventListener('input', (e) => { alarmVolume = parseFloat(e.target.value); });
+            volumeRange.addEventListener('change', () => { try { playSoftChime(); } catch(e){} });
+
+            document.getElementById('layoutSelect').addEventListener('change', (e) => { document.body.classList.toggle('cards-only', e.target.value === 'cards'); });
+            document.getElementById('toggleCards').addEventListener('change', (e) => { document.body.classList.toggle('hide-cards', !e.target.checked); });
+        }
+
+        initInterface(); 
+        updateUITexts(); 
+        setupSettingsBar(); 
+        setupAlarmControls(); 
+        updateClock();
+    </script>
+</body>
+</html>
