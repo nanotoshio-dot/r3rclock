@@ -2,16 +2,16 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>R3R Clock — Future Lab</title>
   <style>
     *{box-sizing:border-box}
     html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050816}
-    #clockFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent}
+    #clockFrame{position:absolute;inset:0;display:block;width:100vw;height:100dvh;border:0;background:transparent}
   </style>
 </head>
 <body>
-  <iframe id="clockFrame" src="./index.html" title="R3R Clock Future Lab"></iframe>
+  <iframe id="clockFrame" src="./index.html?future-mobile=fullwidth-1" title="R3R Clock Future Lab"></iframe>
 
   <script>
     const frame = document.getElementById('clockFrame');
@@ -34,7 +34,7 @@
 
       body::before{
         content:"";
-        position:fixed; inset:0; z-index:-1; pointer-events:none;
+        position:fixed;inset:0;z-index:-1;pointer-events:none;
         background-image:
           linear-gradient(color-mix(in srgb,var(--future-accent) 7%, transparent) 1px,transparent 1px),
           linear-gradient(90deg,color-mix(in srgb,var(--future-accent) 7%, transparent) 1px,transparent 1px);
@@ -145,9 +145,9 @@
       }
 
       .clock-wrapper::before,.clock-wrapper::after{
-        content:""; position:absolute; inset:7%;
+        content:"";position:absolute;inset:7%;
         border:1px solid color-mix(in srgb,var(--future-accent) 8%, transparent);
-        border-radius:50%; pointer-events:none;
+        border-radius:50%;pointer-events:none;
       }
       .clock-wrapper::after{inset:17%;border-color:color-mix(in srgb,var(--future-accent-2) 5%, transparent)}
 
@@ -207,8 +207,8 @@
         padding:16px !important;
       }
       .heatmap-section::before{
-        content:"R3R MARKET MATRIX"; display:block; margin:2px 0 12px 4px;
-        color:var(--future-muted); font-size:11px; font-weight:800; letter-spacing:.18em;
+        content:"R3R MARKET MATRIX";display:block;margin:2px 0 12px 4px;
+        color:var(--future-muted);font-size:11px;font-weight:800;letter-spacing:.18em;
       }
 
       .ticker-tape-wrapper{
@@ -236,23 +236,26 @@
         .side-panel{width:250px !important;padding:10px !important}
       }
 
-      /* MOBILE OPERATOR MODE */
+      /* MOBILE — clock and country cards use the exact same usable width */
       @media(max-width:800px){
         html,body{
+          width:100% !important;
+          max-width:100% !important;
           overflow-x:hidden !important;
           overflow-y:auto !important;
-          width:100% !important;
         }
 
         body{
-          padding-bottom:56px !important;
+          padding:0 0 56px !important;
           background-size:auto !important;
         }
 
         .clock-section{
+          width:100% !important;
+          max-width:100% !important;
           height:auto !important;
           min-height:0 !important;
-          padding:8px !important;
+          padding:6px !important;
           overflow:visible !important;
         }
 
@@ -261,64 +264,57 @@
           flex-direction:column !important;
           align-items:stretch !important;
           width:100% !important;
+          max-width:100% !important;
           height:auto !important;
-          gap:10px !important;
+          gap:8px !important;
+          padding:0 !important;
           overflow:visible !important;
         }
 
         .clock-wrapper{
           order:1 !important;
+          box-sizing:border-box !important;
           width:100% !important;
+          max-width:100% !important;
           height:auto !important;
           min-height:0 !important;
           aspect-ratio:1 / 1 !important;
-          padding:6px !important;
-          border-radius:22px !important;
+          margin:0 !important;
+          padding:4px !important;
+          border-radius:20px !important;
           overflow:hidden !important;
         }
 
         #clockSvg{
-          width:min(94vw,520px) !important;
+          display:block !important;
+          width:100% !important;
           height:auto !important;
           max-width:100% !important;
           max-height:none !important;
           margin:auto !important;
         }
 
-        .settings-container{
-          bottom:10px !important;
-          right:10px !important;
-        }
-
-        .settings-btn{
-          font-size:1.05rem !important;
-          padding:7px 9px !important;
-          border-radius:12px !important;
-        }
-
-        .settings-menu{
-          max-width:min(88vw,320px) !important;
-          min-width:190px !important;
-          max-height:70vh !important;
-          overflow:auto !important;
-        }
-
         .left-panel,.right-panel{
+          box-sizing:border-box !important;
           width:100% !important;
+          min-width:100% !important;
+          max-width:100% !important;
           height:auto !important;
           min-height:0 !important;
+          margin:0 !important;
+          padding:0 !important;
           display:flex !important;
           flex-direction:row !important;
           align-items:stretch !important;
           justify-content:flex-start !important;
           gap:8px !important;
-          padding:8px !important;
           overflow-x:auto !important;
           overflow-y:hidden !important;
           scroll-snap-type:x mandatory !important;
           -webkit-overflow-scrolling:touch !important;
-          border-radius:18px !important;
+          border-radius:20px !important;
           scrollbar-width:none !important;
+          overscroll-behavior-x:contain !important;
         }
 
         .left-panel{order:2 !important}
@@ -326,13 +322,16 @@
         .left-panel::-webkit-scrollbar,.right-panel::-webkit-scrollbar{display:none !important}
 
         .market-card{
-          flex:0 0 min(88vw,360px) !important;
-          width:min(88vw,360px) !important;
-          min-width:0 !important;
-          min-height:96px !important;
-          padding:10px 12px !important;
-          border-radius:16px !important;
-          scroll-snap-align:center !important;
+          box-sizing:border-box !important;
+          flex:0 0 100% !important;
+          width:100% !important;
+          min-width:100% !important;
+          max-width:100% !important;
+          min-height:104px !important;
+          margin:0 !important;
+          padding:11px 12px !important;
+          border-radius:19px !important;
+          scroll-snap-align:start !important;
           scroll-snap-stop:always !important;
           justify-content:center !important;
           gap:8px !important;
@@ -340,6 +339,7 @@
 
         .card-row{
           width:100% !important;
+          min-width:0 !important;
           gap:8px !important;
         }
 
@@ -349,10 +349,13 @@
         }
 
         .card-row-bottom{
-          flex-wrap:wrap !important;
+          display:grid !important;
+          grid-template-columns:minmax(0,1fr) auto !important;
           align-items:center !important;
-          justify-content:space-between !important;
-          row-gap:7px !important;
+          width:100% !important;
+          min-width:0 !important;
+          column-gap:8px !important;
+          row-gap:6px !important;
         }
 
         .market-title-group{
@@ -360,10 +363,7 @@
           overflow:hidden !important;
         }
 
-        .market-card h3{
-          font-size:.90rem !important;
-        }
-
+        .market-card h3{font-size:.92rem !important}
         .market-card .country{
           min-width:0 !important;
           overflow:hidden !important;
@@ -372,40 +372,57 @@
         }
 
         .status-badge{
-          max-width:110px !important;
+          flex-shrink:0 !important;
+          max-width:118px !important;
           overflow:hidden !important;
           text-overflow:ellipsis !important;
           padding:3px 8px !important;
-          font-size:.62rem !important;
+          font-size:.63rem !important;
         }
 
         .market-card .card-timer{
           min-width:0 !important;
+          max-width:100% !important;
           gap:5px !important;
+          overflow:hidden !important;
         }
 
         .countdown-label{
+          flex-shrink:0 !important;
           font-size:.60rem !important;
         }
 
         .countdown-timer{
+          min-width:0 !important;
           font-size:.78rem !important;
+          white-space:nowrap !important;
         }
 
         .card-alarms-inline{
-          margin-left:auto !important;
-          gap:5px !important;
+          min-width:0 !important;
+          margin-left:0 !important;
+          gap:4px !important;
           flex-shrink:0 !important;
         }
 
-        .alarm-control{gap:2px !important}
-        .alarm-bell{font-size:.72rem !important}
-        .alarm-minutes{width:31px !important;font-size:.64rem !important}
+        .alarm-control{gap:1px !important}
+        .alarm-bell{font-size:.72rem !important;padding:1px !important}
+        .alarm-minutes{width:30px !important;font-size:.63rem !important}
 
-        /* Heatmap is intentionally removed from phone mode: the clock/cards win the space. */
-        .heatmap-section{
-          display:none !important;
+        .settings-container{bottom:8px !important;right:8px !important}
+        .settings-btn{
+          font-size:1.05rem !important;
+          padding:7px 9px !important;
+          border-radius:12px !important;
         }
+        .settings-menu{
+          max-width:min(88vw,320px) !important;
+          min-width:190px !important;
+          max-height:70vh !important;
+          overflow:auto !important;
+        }
+
+        .heatmap-section{display:none !important}
 
         .ticker-tape-wrapper{
           height:54px !important;
@@ -415,7 +432,6 @@
           border-top-width:1px !important;
           box-shadow:0 -4px 18px color-mix(in srgb,var(--future-accent) 7%, transparent) !important;
         }
-
         .ticker-tape-wrapper tv-ticker-tape{
           display:block !important;
           height:54px !important;
@@ -424,12 +440,23 @@
       }
 
       @media(max-width:430px){
-        .clock-section{padding:6px !important}
-        .clock-wrapper{border-radius:18px !important;padding:4px !important}
-        #clockSvg{width:96vw !important}
-        .market-card{flex-basis:90vw !important;width:90vw !important;min-height:94px !important}
-        .side-panel{padding:7px !important;border-radius:16px !important}
-        .settings-container{bottom:8px !important;right:8px !important}
+        .clock-section{padding:5px !important}
+        .clock-wrapper,.left-panel,.right-panel{border-radius:17px !important}
+        .clock-wrapper{padding:3px !important}
+        #clockSvg{width:100% !important}
+        .market-card{
+          flex:0 0 100% !important;
+          width:100% !important;
+          min-width:100% !important;
+          max-width:100% !important;
+          min-height:100px !important;
+          padding:10px !important;
+          border-radius:16px !important;
+        }
+        .card-row-bottom{grid-template-columns:minmax(0,1fr) auto !important;column-gap:5px !important}
+        .status-badge{max-width:106px !important;font-size:.60rem !important}
+        .countdown-timer{font-size:.74rem !important}
+        .alarm-minutes{width:28px !important;font-size:.60rem !important}
       }
     `;
 
@@ -442,12 +469,13 @@
       style.id='r3r-future-lab-style';
       style.textContent=futureCSS;
       doc.head.appendChild(style);
-      doc.documentElement.setAttribute('data-r3r-future','skin-aware-mobile');
+      doc.documentElement.setAttribute('data-r3r-future','skin-aware-mobile-fullwidth');
     }
 
     frame.addEventListener('load',()=>{
       installFutureTheme();
-      setTimeout(installFutureTheme,800);
+      setTimeout(installFutureTheme,400);
+      setTimeout(installFutureTheme,1200);
     });
   </script>
 </body>
