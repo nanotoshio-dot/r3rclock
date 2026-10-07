@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R3R Clock — Soft Palette A/B Test</title>
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        #clockFrame {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .ab-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 999999;
+            display: flex;
+            gap: 6px;
+            padding: 6px;
+            border: 1px solid #3b414a;
+            border-radius: 9px;
+            background: rgba(10, 13, 18, 0.88);
+            backdrop-filter: blur(8px);
+        }
+        .ab-panel button {
+            min-height: 34px;
+            padding: 5px 10px;
+            border: 1px solid #454c56;
+            border-radius: 6px;
+            background: #11151b;
+            color: #c8cdd4;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .ab-panel button.active {
+            border-color: #c98a43;
+            color: #e1b273;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="clockFrame" src="./index.html" title="R3R Clock"></iframe>
+    <div class="ab-panel" aria-label="Comparação de paleta">
+        <button id="originalBtn" type="button">ORIGINAL</button>
+        <button id="softBtn" type="button" class="active">SOFT</button>
+    </div>
+
+    <script>
+        const frame = document.getElementById('clockFrame');
+        const originalBtn = document.getElementById('originalBtn');
+        const softBtn = document.getElementById('softBtn');
+        const STYLE_ID = 'r3r-soft-palette-test-style';
+
+        const softCSS = `
+            body,
+            body.skin-classic,
+            body.skin-cyberpunk,
+            body.skin-emerald,
+            body.skin-crimson,
+            body.skin-solarized,
+            body.skin-monochrome,
+            body.skin-sunset,
+            body.skin-matrix,
+            body.skin-ocean,
+            body.skin-gold {
+                --bg-color: #080b10 !important;
+                --text-main: #d9dee6 !important;
+                --text-dim: #78818d !important;
+                --panel-bg: #0f1319 !important;
+                --panel-border: #272e38 !important;
+                --accent-color: #c77b31 !important;
+                --accent-orange: #d9a15d !important;
+                --clock-ring: #b97738 !important;
+                --tick-main: #c5cbd3 !important;
+                --tick-sub: #343b45 !important;
+            }
+
+            #clockSvg .market-arc:not(.closed) {
+                opacity: 0.72 !important;
+            }
+            #clockSvg .market-arc.closed {
+                stroke: #252b33 !important;
+            }
+            #clockSvg .guide-ring {
+                stroke: #242b34 !important;
+                opacity: 0.86 !important;
+            }
+            #clockSvg .preopen-arc {
+                stroke: #555e69 !important;
+                opacity: 0.62 !important;
+            }
+            #clockSvg .sun-icon {
+                opacity: 0.72 !important;
+            }
+            #clockSvg .arc-text {
+                fill: #d6dae0 !important;
+                opacity: 0.90 !important;
+            }
+            #clockSvg .hour-text,
+            #clockSvg .minute-text,
+            #clockSvg .center-numbers {
+                opacity: 0.88 !important;
+            }
+            #clockSvg #secondHand {
+                opacity: 0.72 !important;
+            }
+
+            .market-card .swatch {
+                opacity: 0.72 !important;
+            }
+            .card-open .status-badge {
+                background: #17291d !important;
+                color: #82b991 !important;
+                border-color: #31563b !important;
+            }
+            .card-closed .status-badge {
+                background: #281b1b !important;
+                color: #c98787 !important;
+                border-color: #694040 !important;
+            }
+            .card-holiday .status-badge {
+                background: #2c2418 !important;
+                color: #d7ad70 !important;
+                border-color: #765a31 !important;
+            }
+            .countdown-timer {
+                color: #8db5c6 !important;
+            }
+            .card-open .countdown-timer {
+                color: #d8a66a !important;
+            }
+            .market-card:hover {
+                box-shadow: none !important;
+            }
+        `;
+
+        function setMode(mode) {
+            const doc = frame.contentDocument;
+            if (!doc) return;
+            let style = doc.getElementById(STYLE_ID);
+
+            if (mode === 'soft') {
+                if (!style) {
+                    style = doc.createElement('style');
+                    style.id = STYLE_ID;
+                    style.textContent = softCSS;
+                    doc.head.appendChild(style);
+                }
+                softBtn.classList.add('active');
+                originalBtn.classList.remove('active');
+            } else {
+                if (style) style.remove();
+                originalBtn.classList.add('active');
+                softBtn.classList.remove('active');
+            }
+        }
+
+        frame.addEventListener('load', () => setMode('soft'));
+        originalBtn.addEventListener('click', () => setMode('original'));
+        softBtn.addEventListener('click', () => setMode('soft'));
+    </script>
+</body>
+</html>
