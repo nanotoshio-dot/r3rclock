@@ -44,8 +44,8 @@
             cursor: pointer;
         }
         .ab-panel button.active {
-            border-color: #c98a43;
-            color: #e1b273;
+            border-color: #b78957;
+            color: #d6b184;
         }
     </style>
 </head>
@@ -63,85 +63,83 @@
         const STYLE_ID = 'r3r-soft-palette-test-style';
 
         const softCSS = `
-            body,
-            body.skin-classic,
-            body.skin-cyberpunk,
-            body.skin-emerald,
-            body.skin-crimson,
-            body.skin-solarized,
-            body.skin-monochrome,
-            body.skin-sunset,
-            body.skin-matrix,
-            body.skin-ocean,
-            body.skin-gold {
-                --bg-color: #080b10 !important;
-                --text-main: #d9dee6 !important;
-                --text-dim: #78818d !important;
-                --panel-bg: #0f1319 !important;
-                --panel-border: #272e38 !important;
-                --accent-color: #c77b31 !important;
-                --accent-orange: #d9a15d !important;
-                --clock-ring: #b97738 !important;
-                --tick-main: #c5cbd3 !important;
-                --tick-sub: #343b45 !important;
+            /* Força a comparação em QUALQUER skin, inclusive NYSE Wall St. */
+            body {
+                --bg-color: #0a0d12 !important;
+                --text-main: #c9ced6 !important;
+                --text-dim: #727b87 !important;
+                --panel-bg: #11161d !important;
+                --panel-border: #2a323d !important;
+                --accent-color: #ad713c !important;
+                --accent-orange: #c3915c !important;
+                --clock-ring: #9f6b3d !important;
+                --tick-main: #b8bec7 !important;
+                --tick-sub: #343c47 !important;
             }
 
             #clockSvg .market-arc:not(.closed) {
-                opacity: 0.72 !important;
+                opacity: 0.52 !important;
             }
             #clockSvg .market-arc.closed {
-                stroke: #252b33 !important;
+                stroke: #262d36 !important;
+                opacity: 0.92 !important;
             }
             #clockSvg .guide-ring {
-                stroke: #242b34 !important;
-                opacity: 0.86 !important;
-            }
-            #clockSvg .preopen-arc {
-                stroke: #555e69 !important;
-                opacity: 0.62 !important;
-            }
-            #clockSvg .sun-icon {
+                stroke: #252d36 !important;
                 opacity: 0.72 !important;
             }
+            #clockSvg .preopen-arc {
+                stroke: #5b6570 !important;
+                opacity: 0.48 !important;
+            }
+            #clockSvg .sun-icon {
+                opacity: 0.62 !important;
+            }
             #clockSvg .arc-text {
-                fill: #d6dae0 !important;
-                opacity: 0.90 !important;
+                fill: #c8cdd4 !important;
+                opacity: 0.82 !important;
             }
             #clockSvg .hour-text,
             #clockSvg .minute-text,
             #clockSvg .center-numbers {
-                opacity: 0.88 !important;
+                opacity: 0.82 !important;
             }
             #clockSvg #secondHand {
-                opacity: 0.72 !important;
+                opacity: 0.58 !important;
             }
 
             .market-card .swatch {
-                opacity: 0.72 !important;
+                opacity: 0.52 !important;
             }
             .card-open .status-badge {
-                background: #17291d !important;
-                color: #82b991 !important;
-                border-color: #31563b !important;
+                background: #17231b !important;
+                color: #7ea18a !important;
+                border-color: #385041 !important;
             }
             .card-closed .status-badge {
-                background: #281b1b !important;
-                color: #c98787 !important;
-                border-color: #694040 !important;
+                background: #241a1a !important;
+                color: #b67d7d !important;
+                border-color: #5f4141 !important;
             }
             .card-holiday .status-badge {
-                background: #2c2418 !important;
-                color: #d7ad70 !important;
-                border-color: #765a31 !important;
+                background: #292217 !important;
+                color: #c49e6c !important;
+                border-color: #665332 !important;
             }
             .countdown-timer {
-                color: #8db5c6 !important;
+                color: #829eaa !important;
             }
             .card-open .countdown-timer {
-                color: #d8a66a !important;
+                color: #bd925f !important;
             }
-            .market-card:hover {
+            .market-card:hover,
+            body.skin-nyse .market-card:hover {
                 box-shadow: none !important;
+            }
+            body.skin-nyse .arc-closing-soon,
+            body.skin-nyse .card-closing-soon,
+            body.skin-nyse .card-closing-soon .status-badge {
+                animation: none !important;
             }
         `;
 
