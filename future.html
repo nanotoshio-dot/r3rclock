@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R3R Clock — Future Lab</title>
+  <style>
+    :root {
+      --bg:#050816; --bg2:#0a1226; --cyan:#66f4ff; --teal:#29d6c7;
+      --text:#e4fbff; --muted:#7ea9bc; --panel:rgba(5,14,30,.82);
+      --border:rgba(102,244,255,.18); --amber:#ffbd66; --red:#ff6d88;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:Inter,"Segoe UI",system-ui,sans-serif}
+    body{background:
+      radial-gradient(circle at 50% 45%,rgba(20,91,122,.24),transparent 34%),
+      radial-gradient(circle at 12% 15%,rgba(27,155,177,.12),transparent 28%),
+      radial-gradient(circle at 88% 86%,rgba(118,48,137,.12),transparent 30%),
+      linear-gradient(180deg,var(--bg2),var(--bg));}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(82,213,235,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(82,213,235,.055) 1px,transparent 1px);background-size:38px 38px;mask-image:radial-gradient(circle at center,#000 38%,transparent 94%)}
+    #clockFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent}
+    .labbar{position:fixed;top:12px;left:12px;right:12px;z-index:999999;display:flex;justify-content:space-between;align-items:center;gap:12px;pointer-events:none}
+    .group{display:flex;gap:8px;flex-wrap:wrap;pointer-events:auto}
+    .pill{border:1px solid var(--border);background:rgba(5,14,30,.82);backdrop-filter:blur(14px);box-shadow:0 0 25px rgba(102,244,255,.08);color:var(--text);border-radius:999px;padding:9px 13px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;text-decoration:none}
+    .pill strong{color:var(--cyan)}
+    .pill.hot strong{color:var(--amber)}
+    .pill.link:hover{border-color:rgba(102,244,255,.5);box-shadow:0 0 24px rgba(102,244,255,.16)}
+    @media(max-width:900px){.labbar{top:8px;left:8px;right:8px}.pill{padding:7px 10px;font-size:10px}.group.hide-small{display:none}}
+  </style>
+</head>
+<body>
+  <iframe id="clockFrame" src="./index.html" title="R3R Clock Future Lab"></iframe>
+  <div class="labbar">
+    <div class="group">
+      <span class="pill"><strong>R3R Future Lab</strong></span>
+      <span class="pill">full original engine <strong>active</strong></span>
+      <span class="pill hot">layout <strong>operator nexus</strong></span>
+    </div>
+    <div class="group hide-small">
+      <span class="pill" id="liveClock">--:--:--</span>
+      <a class="pill link" href="./index.html">Original</a>
+      <a class="pill link" href="./soft.html">Soft</a>
+    </div>
+  </div>
+
+  <script>
+    const frame = document.getElementById('clockFrame');
+    const liveClock = document.getElementById('liveClock');
+
+    function tickTopClock(){
+      const d=new Date();
+      liveClock.textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(v=>String(v).padStart(2,'0')).join(':');
+    }
+    tickTopClock(); setInterval(tickTopClock,1000);
+
+    const futureCSS = `
+      :root{
+        --r3r-bg:#050816;
+        --r3r-bg2:#0a1226;
+        --r3r-panel:rgba(6,15,31,.78);
+        --r3r-panel2:rgba(9,24,46,.74);
+        --r3r-cyan:#66f4ff;
+        --r3r-teal:#29d6c7;
+        --r3r-text:#e5fbff;
+        --r3r-muted:#82aebf;
+        --r3r-border:rgba(102,244,255,.16);
+        --r3r-blue:#55a9ff;
+        --r3r-amber:#ffbd66;
+        --r3r-red:#ff6d88;
+        --r3r-green:#80f7a0;
+      }
+
+      html,body{
+        background:
+          radial-gradient(circle at 50% 38%,rgba(21,96,127,.25),transparent 34%),
+          radial-gradient(circle at 12% 12%,rgba(42,205,214,.10),transparent 25%),
+          radial-gradient(circle at 90% 88%,rgba(142,64,168,.10),transparent 25%),
+          linear-gradient(180deg,var(--r3r-bg2),var(--r3r-bg)) !important;
+        color:var(--r3r-text) !important;
+      }
+
+      body,
+      body.skin-classic,
+      body.skin-cyberpunk,
+      body.skin-emerald,
+      body.skin-crimson,
+      body.skin-solarized,
+      body.skin-monochrome,
+      body.skin-sunset,
+      body.skin-matrix,
+      body.skin-ocean,
+      body.skin-gold,
+      body.skin-nyse{
+        --bg-color:transparent !important;
+        --text-main:var(--r3r-text) !important;
+        --text-dim:var(--r3r-muted) !important;
+        --panel-bg:rgba(6,15,31,.74) !important;
+        --panel-border:rgba(102,244,255,.14) !important;
+        --accent-color:var(--r3r-cyan) !important;
+        --accent-orange:var(--r3r-teal) !important;
+        --clock-ring:var(--r3r-cyan) !important;
+        --tick-main:#c7f7ff !important;
+        --tick-sub:#17344a !important;
+      }
+
+      body::before{
+        content:"";
+        position:fixed; inset:0; z-index:-1; pointer-events:none;
+        background-image:
+          linear-gradient(rgba(87,213,235,.055) 1px,transparent 1px),
+          linear-gradient(90deg,rgba(87,213,235,.055) 1px,transparent 1px);
+        background-size:38px 38px;
+        mask-image:radial-gradient(circle at center,#000 38%,transparent 92%);
+      }
+
+      .clock-section{
+        height:calc(100vh - 78px) !important;
+        padding:58px 14px 10px !important;
+        background:transparent !important;
+      }
+
+      .app-container{
+        gap:14px !important;
+        padding:0 !important;
+        overflow:hidden !important;
+      }
+
+      .side-panel{
+        width:300px !important;
+        margin:0 !important;
+        padding:14px !important;
+        gap:7px !important;
+        border:1px solid var(--r3r-border) !important;
+        border-radius:24px !important;
+        background:linear-gradient(180deg,rgba(9,24,46,.78),rgba(4,12,26,.74)) !important;
+        box-shadow:0 0 28px rgba(58,211,226,.07),inset 0 0 35px rgba(32,111,137,.05) !important;
+        backdrop-filter:blur(16px) !important;
+      }
+
+      .left-panel,.right-panel{border:1px solid var(--r3r-border) !important}
+
+      .market-card{
+        border:1px solid rgba(102,244,255,.105) !important;
+        border-radius:15px !important;
+        background:linear-gradient(180deg,rgba(12,31,58,.64),rgba(6,17,35,.48)) !important;
+        box-shadow:inset 0 0 18px rgba(60,200,215,.025) !important;
+        transition:.18s ease !important;
+      }
+      .market-card:hover{
+        transform:translateY(-1px) !important;
+        border-color:rgba(102,244,255,.34) !important;
+        box-shadow:0 0 20px rgba(63,221,235,.08),inset 0 0 22px rgba(60,200,215,.04) !important;
+      }
+      .market-name,.market-card strong{color:var(--r3r-text) !important}
+      .market-time,.market-card small,.market-card .meta{color:var(--r3r-muted) !important}
+
+      .status-badge{
+        border-radius:999px !important;
+        padding:2px 8px !important;
+        font-weight:800 !important;
+        letter-spacing:.05em !important;
+        box-shadow:none !important;
+      }
+      .card-open .status-badge{
+        color:var(--r3r-green) !important;
+        border-color:rgba(128,247,160,.28) !important;
+        background:rgba(26,85,48,.24) !important;
+      }
+      .card-closed .status-badge{
+        color:#b7c9d2 !important;
+        border-color:rgba(183,201,210,.16) !important;
+        background:rgba(99,115,130,.10) !important;
+      }
+      .card-holiday .status-badge{
+        color:var(--r3r-amber) !important;
+        border-color:rgba(255,189,102,.26) !important;
+        background:rgba(104,69,22,.20) !important;
+      }
+      .card-closing-soon{
+        border-color:rgba(255,109,136,.42) !important;
+        box-shadow:0 0 22px rgba(255,109,136,.08) !important;
+      }
+      .card-closing-soon .status-badge{
+        color:var(--r3r-red) !important;
+        background:rgba(111,32,53,.24) !important;
+        border-color:rgba(255,109,136,.34) !important;
+      }
+
+      .clock-wrapper{
+        border:1px solid rgba(102,244,255,.10) !important;
+        border-radius:32px !important;
+        background:
+          radial-gradient(circle at center,rgba(30,103,130,.20),transparent 42%),
+          radial-gradient(circle at center,rgba(8,26,48,.65),rgba(4,11,25,.25) 68%,transparent 80%) !important;
+        box-shadow:0 0 36px rgba(66,219,232,.08),inset 0 0 60px rgba(38,134,161,.04) !important;
+        overflow:hidden !important;
+      }
+      .clock-wrapper::before,
+      .clock-wrapper::after{
+        content:"";
+        position:absolute;
+        inset:7%;
+        border:1px solid rgba(102,244,255,.055);
+        border-radius:50%;
+        pointer-events:none;
+      }
+      .clock-wrapper::after{inset:17%;border-color:rgba(102,244,255,.035)}
+
+      #clockSvg{
+        width:auto !important;
+        height:min(100%,820px) !important;
+        max-width:100% !important;
+        max-height:100% !important;
+        filter:drop-shadow(0 0 18px rgba(102,244,255,.10)) !important;
+      }
+      #clockSvg .guide-ring{
+        stroke:rgba(92,191,211,.105) !important;
+        stroke-width:4.6 !important;
+      }
+      #clockSvg .market-arc.closed{
+        stroke:#122b3d !important;
+        opacity:.52 !important;
+      }
+      #clockSvg .market-arc:not(.closed){
+        opacity:.86 !important;
+        filter:drop-shadow(0 0 2.5px rgba(102,244,255,.16)) !important;
+      }
+      #clockSvg .preopen-arc{
+        stroke:var(--r3r-amber) !important;
+        opacity:.36 !important;
+      }
+      #clockSvg .arc-text{
+        fill:#dffaff !important;
+        font-weight:800 !important;
+        letter-spacing:.9px !important;
+        text-shadow:0 0 8px rgba(102,244,255,.14) !important;
+      }
+      #clockSvg .tick-line{stroke:#bceff5 !important;opacity:.76 !important}
+      #clockSvg .tick-line-sub{stroke:#21455c !important;opacity:.75 !important}
+      #clockSvg text{font-family:Inter,"Segoe UI Variable","Segoe UI",system-ui,sans-serif !important}
+      #clockSvg #secondHand{stroke:var(--r3r-cyan) !important;filter:drop-shadow(0 0 4px rgba(102,244,255,.55)) !important}
+
+      .settings-container{bottom:17px !important;right:17px !important}
+      .settings-btn{
+        border-radius:14px !important;
+        border:1px solid rgba(102,244,255,.18) !important;
+        background:rgba(5,16,34,.86) !important;
+        color:var(--r3r-cyan) !important;
+        box-shadow:0 0 24px rgba(102,244,255,.09) !important;
+        backdrop-filter:blur(12px) !important;
+      }
+      .settings-menu{
+        border-radius:18px !important;
+        border:1px solid rgba(102,244,255,.18) !important;
+        background:rgba(5,16,34,.94) !important;
+        box-shadow:0 0 35px rgba(62,216,232,.11) !important;
+        backdrop-filter:blur(18px) !important;
+      }
+
+      .heatmap-section{
+        background:linear-gradient(180deg,rgba(4,12,27,.94),rgba(3,9,21,.98)) !important;
+        border-top:1px solid rgba(102,244,255,.13) !important;
+        padding:16px !important;
+      }
+      .heatmap-section::before{
+        content:"R3R MARKET MATRIX";
+        display:block;
+        margin:2px 0 12px 4px;
+        color:var(--r3r-muted);
+        font-size:11px;
+        font-weight:800;
+        letter-spacing:.18em;
+      }
+
+      .ticker-tape-wrapper{
+        border-top:1px solid rgba(102,244,255,.15) !important;
+        background:rgba(4,12,27,.94) !important;
+        box-shadow:0 -6px 28px rgba(49,194,209,.05) !important;
+      }
+
+      .side-panel::-webkit-scrollbar{width:4px !important}
+      .side-panel::-webkit-scrollbar-thumb{background:rgba(102,244,255,.18) !important;border-radius:999px !important}
+
+      @media(max-width:1100px){
+        .clock-section{padding-top:55px !important}
+        .side-panel{width:250px !important;padding:10px !important}
+      }
+      @media(max-width:800px){
+        .clock-section{padding-top:52px !important}
+        .app-container{gap:8px !important}
+        .side-panel{border-radius:16px !important}
+      }
+    `;
+
+    function installFutureTheme(){
+      const doc=frame.contentDocument;
+      if(!doc) return;
+      if(doc.getElementById('r3r-future-lab-style')) return;
+      const style=doc.createElement('style');
+      style.id='r3r-future-lab-style';
+      style.textContent=futureCSS;
+      doc.head.appendChild(style);
+      doc.documentElement.setAttribute('data-r3r-future','1');
+    }
+
+    frame.addEventListener('load',()=>{
+      installFutureTheme();
+      setTimeout(installFutureTheme,800);
+    });
+  </script>
+</body>
+</html>
