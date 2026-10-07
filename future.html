@@ -5,19 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>R3R Clock — Future Lab</title>
   <style>
-    :root {
-      --bg:#050816; --bg2:#0a1226; --cyan:#66f4ff; --teal:#29d6c7;
-      --text:#e4fbff; --muted:#7ea9bc; --panel:rgba(5,14,30,.82);
-      --border:rgba(102,244,255,.18); --amber:#ffbd66; --red:#ff6d88;
-    }
     *{box-sizing:border-box}
-    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:Inter,"Segoe UI",system-ui,sans-serif}
-    body{background:
-      radial-gradient(circle at 50% 45%,rgba(20,91,122,.24),transparent 34%),
-      radial-gradient(circle at 12% 15%,rgba(27,155,177,.12),transparent 28%),
-      radial-gradient(circle at 88% 86%,rgba(118,48,137,.12),transparent 30%),
-      linear-gradient(180deg,var(--bg2),var(--bg));}
-    body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(82,213,235,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(82,213,235,.055) 1px,transparent 1px);background-size:38px 38px;mask-image:radial-gradient(circle at center,#000 38%,transparent 94%)}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050816}
     #clockFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent}
   </style>
 </head>
@@ -28,68 +17,39 @@
     const frame = document.getElementById('clockFrame');
 
     const futureCSS = `
-      :root{
-        --r3r-bg:#050816;
-        --r3r-bg2:#0a1226;
-        --r3r-panel:rgba(6,15,31,.78);
-        --r3r-panel2:rgba(9,24,46,.74);
-        --r3r-cyan:#66f4ff;
-        --r3r-teal:#29d6c7;
-        --r3r-text:#e5fbff;
-        --r3r-muted:#82aebf;
-        --r3r-border:rgba(102,244,255,.16);
-        --r3r-blue:#55a9ff;
-        --r3r-amber:#ffbd66;
-        --r3r-red:#ff6d88;
-        --r3r-green:#80f7a0;
-      }
-
-      html,body{
+      body{
+        --future-accent:var(--accent-color);
+        --future-accent-2:var(--accent-orange);
+        --future-text:var(--text-main);
+        --future-muted:var(--text-dim);
+        --future-panel:var(--panel-bg);
+        --future-border:var(--panel-border);
         background:
-          radial-gradient(circle at 50% 38%,rgba(21,96,127,.25),transparent 34%),
-          radial-gradient(circle at 12% 12%,rgba(42,205,214,.10),transparent 25%),
-          radial-gradient(circle at 90% 88%,rgba(142,64,168,.10),transparent 25%),
-          linear-gradient(180deg,var(--r3r-bg2),var(--r3r-bg)) !important;
-        color:var(--r3r-text) !important;
-      }
-
-      body,
-      body.skin-classic,
-      body.skin-cyberpunk,
-      body.skin-emerald,
-      body.skin-crimson,
-      body.skin-solarized,
-      body.skin-monochrome,
-      body.skin-sunset,
-      body.skin-matrix,
-      body.skin-ocean,
-      body.skin-gold,
-      body.skin-nyse{
-        --bg-color:transparent !important;
-        --text-main:var(--r3r-text) !important;
-        --text-dim:var(--r3r-muted) !important;
-        --panel-bg:rgba(6,15,31,.74) !important;
-        --panel-border:rgba(102,244,255,.14) !important;
-        --accent-color:var(--r3r-cyan) !important;
-        --accent-orange:var(--r3r-teal) !important;
-        --clock-ring:var(--r3r-cyan) !important;
-        --tick-main:#c7f7ff !important;
-        --tick-sub:#17344a !important;
+          radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--future-accent) 16%, transparent),transparent 35%),
+          radial-gradient(circle at 12% 12%,color-mix(in srgb,var(--future-accent-2) 10%, transparent),transparent 26%),
+          radial-gradient(circle at 90% 88%,color-mix(in srgb,var(--future-accent) 8%, transparent),transparent 28%),
+          linear-gradient(180deg,
+            color-mix(in srgb,var(--bg-color) 88%, var(--future-accent) 12%),
+            var(--bg-color)) !important;
+        color:var(--future-text) !important;
       }
 
       body::before{
         content:"";
-        position:fixed; inset:0; z-index:-1; pointer-events:none;
+        position:fixed;
+        inset:0;
+        z-index:-1;
+        pointer-events:none;
         background-image:
-          linear-gradient(rgba(87,213,235,.055) 1px,transparent 1px),
-          linear-gradient(90deg,rgba(87,213,235,.055) 1px,transparent 1px);
+          linear-gradient(color-mix(in srgb,var(--future-accent) 7%, transparent) 1px,transparent 1px),
+          linear-gradient(90deg,color-mix(in srgb,var(--future-accent) 7%, transparent) 1px,transparent 1px);
         background-size:38px 38px;
         mask-image:radial-gradient(circle at center,#000 38%,transparent 92%);
       }
 
       .clock-section{
         height:calc(100vh - 78px) !important;
-        padding:10px 14px 10px !important;
+        padding:10px 14px !important;
         background:transparent !important;
       }
 
@@ -104,29 +64,41 @@
         margin:0 !important;
         padding:14px !important;
         gap:7px !important;
-        border:1px solid var(--r3r-border) !important;
+        border:1px solid color-mix(in srgb,var(--future-accent) 20%, var(--future-border) 80%) !important;
         border-radius:24px !important;
-        background:linear-gradient(180deg,rgba(9,24,46,.78),rgba(4,12,26,.74)) !important;
-        box-shadow:0 0 28px rgba(58,211,226,.07),inset 0 0 35px rgba(32,111,137,.05) !important;
+        background:linear-gradient(180deg,
+          color-mix(in srgb,var(--future-panel) 90%, var(--future-accent) 10%),
+          color-mix(in srgb,var(--future-panel) 96%, var(--bg-color) 4%)) !important;
+        box-shadow:
+          0 0 30px color-mix(in srgb,var(--future-accent) 8%, transparent),
+          inset 0 0 38px color-mix(in srgb,var(--future-accent) 4%, transparent) !important;
         backdrop-filter:blur(16px) !important;
       }
 
-      .left-panel,.right-panel{border:1px solid var(--r3r-border) !important}
+      .left-panel,.right-panel{
+        border-color:color-mix(in srgb,var(--future-accent) 20%, var(--future-border) 80%) !important;
+      }
 
       .market-card{
-        border:1px solid rgba(102,244,255,.105) !important;
+        border:1px solid color-mix(in srgb,var(--future-accent) 12%, var(--future-border) 88%) !important;
         border-radius:15px !important;
-        background:linear-gradient(180deg,rgba(12,31,58,.64),rgba(6,17,35,.48)) !important;
-        box-shadow:inset 0 0 18px rgba(60,200,215,.025) !important;
+        background:linear-gradient(180deg,
+          color-mix(in srgb,var(--future-panel) 92%, var(--future-accent) 8%),
+          color-mix(in srgb,var(--future-panel) 98%, var(--bg-color) 2%)) !important;
+        box-shadow:inset 0 0 18px color-mix(in srgb,var(--future-accent) 3%, transparent) !important;
         transition:.18s ease !important;
       }
+
       .market-card:hover{
         transform:translateY(-1px) !important;
-        border-color:rgba(102,244,255,.34) !important;
-        box-shadow:0 0 20px rgba(63,221,235,.08),inset 0 0 22px rgba(60,200,215,.04) !important;
+        border-color:color-mix(in srgb,var(--future-accent) 42%, var(--future-border) 58%) !important;
+        box-shadow:
+          0 0 22px color-mix(in srgb,var(--future-accent) 10%, transparent),
+          inset 0 0 22px color-mix(in srgb,var(--future-accent) 5%, transparent) !important;
       }
-      .market-name,.market-card strong{color:var(--r3r-text) !important}
-      .market-time,.market-card small,.market-card .meta{color:var(--r3r-muted) !important}
+
+      .market-name,.market-card strong{color:var(--future-text) !important}
+      .market-time,.market-card small,.market-card .meta{color:var(--future-muted) !important}
 
       .status-badge{
         border-radius:999px !important;
@@ -135,130 +107,202 @@
         letter-spacing:.05em !important;
         box-shadow:none !important;
       }
+
       .card-open .status-badge{
-        color:var(--r3r-green) !important;
-        border-color:rgba(128,247,160,.28) !important;
-        background:rgba(26,85,48,.24) !important;
+        color:color-mix(in srgb,#62ff9a 74%, var(--future-text) 26%) !important;
+        border-color:color-mix(in srgb,#62ff9a 30%, var(--future-border) 70%) !important;
+        background:color-mix(in srgb,#1c6639 22%, var(--future-panel) 78%) !important;
       }
+
       .card-closed .status-badge{
-        color:#b7c9d2 !important;
-        border-color:rgba(183,201,210,.16) !important;
-        background:rgba(99,115,130,.10) !important;
+        color:var(--future-muted) !important;
+        border-color:color-mix(in srgb,var(--future-muted) 20%, var(--future-border) 80%) !important;
+        background:color-mix(in srgb,var(--future-muted) 8%, var(--future-panel) 92%) !important;
       }
+
       .card-holiday .status-badge{
-        color:var(--r3r-amber) !important;
-        border-color:rgba(255,189,102,.26) !important;
-        background:rgba(104,69,22,.20) !important;
+        color:color-mix(in srgb,#ffc86a 72%, var(--future-text) 28%) !important;
+        border-color:color-mix(in srgb,#ffc86a 30%, var(--future-border) 70%) !important;
+        background:color-mix(in srgb,#8a5c20 18%, var(--future-panel) 82%) !important;
       }
+
       .card-closing-soon{
-        border-color:rgba(255,109,136,.42) !important;
-        box-shadow:0 0 22px rgba(255,109,136,.08) !important;
+        border-color:color-mix(in srgb,#ff6d88 45%, var(--future-border) 55%) !important;
+        box-shadow:0 0 22px color-mix(in srgb,#ff6d88 10%, transparent) !important;
       }
+
       .card-closing-soon .status-badge{
-        color:var(--r3r-red) !important;
-        background:rgba(111,32,53,.24) !important;
-        border-color:rgba(255,109,136,.34) !important;
+        color:#ff7f97 !important;
+        background:color-mix(in srgb,#7c263b 22%, var(--future-panel) 78%) !important;
+        border-color:color-mix(in srgb,#ff6d88 36%, var(--future-border) 64%) !important;
+      }
+
+      .countdown-timer{
+        color:var(--future-accent-2) !important;
+        text-shadow:0 0 10px color-mix(in srgb,var(--future-accent-2) 16%, transparent) !important;
       }
 
       .clock-wrapper{
-        border:1px solid rgba(102,244,255,.10) !important;
+        border:1px solid color-mix(in srgb,var(--future-accent) 14%, var(--future-border) 86%) !important;
         border-radius:32px !important;
         background:
-          radial-gradient(circle at center,rgba(30,103,130,.20),transparent 42%),
-          radial-gradient(circle at center,rgba(8,26,48,.65),rgba(4,11,25,.25) 68%,transparent 80%) !important;
-        box-shadow:0 0 36px rgba(66,219,232,.08),inset 0 0 60px rgba(38,134,161,.04) !important;
+          radial-gradient(circle at center,color-mix(in srgb,var(--future-accent) 15%, transparent),transparent 42%),
+          radial-gradient(circle at center,
+            color-mix(in srgb,var(--future-panel) 86%, var(--future-accent) 14%),
+            color-mix(in srgb,var(--future-panel) 96%, transparent) 68%,
+            transparent 82%) !important;
+        box-shadow:
+          0 0 38px color-mix(in srgb,var(--future-accent) 9%, transparent),
+          inset 0 0 64px color-mix(in srgb,var(--future-accent) 5%, transparent) !important;
         overflow:hidden !important;
       }
+
       .clock-wrapper::before,
       .clock-wrapper::after{
         content:"";
         position:absolute;
         inset:7%;
-        border:1px solid rgba(102,244,255,.055);
+        border:1px solid color-mix(in srgb,var(--future-accent) 8%, transparent);
         border-radius:50%;
         pointer-events:none;
       }
-      .clock-wrapper::after{inset:17%;border-color:rgba(102,244,255,.035)}
+      .clock-wrapper::after{
+        inset:17%;
+        border-color:color-mix(in srgb,var(--future-accent-2) 5%, transparent);
+      }
 
       #clockSvg{
         width:auto !important;
         height:min(100%,820px) !important;
         max-width:100% !important;
         max-height:100% !important;
-        filter:drop-shadow(0 0 18px rgba(102,244,255,.10)) !important;
+        filter:drop-shadow(0 0 18px color-mix(in srgb,var(--future-accent) 12%, transparent)) !important;
       }
+
       #clockSvg .guide-ring{
-        stroke:rgba(92,191,211,.105) !important;
+        stroke:color-mix(in srgb,var(--future-accent) 12%, var(--future-border) 88%) !important;
         stroke-width:4.6 !important;
       }
+
       #clockSvg .market-arc.closed{
-        stroke:#122b3d !important;
-        opacity:.52 !important;
+        stroke:color-mix(in srgb,var(--future-muted) 22%, var(--bg-color) 78%) !important;
+        opacity:.58 !important;
       }
+
       #clockSvg .market-arc:not(.closed){
-        opacity:.86 !important;
-        filter:drop-shadow(0 0 2.5px rgba(102,244,255,.16)) !important;
+        opacity:.88 !important;
+        filter:drop-shadow(0 0 2.5px color-mix(in srgb,var(--future-accent) 18%, transparent)) !important;
       }
+
       #clockSvg .preopen-arc{
-        stroke:var(--r3r-amber) !important;
-        opacity:.36 !important;
+        stroke:var(--future-accent-2) !important;
+        opacity:.46 !important;
       }
+
       #clockSvg .arc-text{
-        fill:#dffaff !important;
+        fill:var(--future-text) !important;
         font-weight:800 !important;
         letter-spacing:.9px !important;
-        text-shadow:0 0 8px rgba(102,244,255,.14) !important;
       }
-      #clockSvg .tick-line{stroke:#bceff5 !important;opacity:.76 !important}
-      #clockSvg .tick-line-sub{stroke:#21455c !important;opacity:.75 !important}
-      #clockSvg text{font-family:Inter,"Segoe UI Variable","Segoe UI",system-ui,sans-serif !important}
-      #clockSvg #secondHand{stroke:var(--r3r-cyan) !important;filter:drop-shadow(0 0 4px rgba(102,244,255,.55)) !important}
+
+      #clockSvg .tick-line{
+        stroke:color-mix(in srgb,var(--tick-main) 78%, var(--future-accent) 22%) !important;
+        opacity:.80 !important;
+      }
+
+      #clockSvg .tick-line-sub{
+        stroke:color-mix(in srgb,var(--tick-sub) 72%, var(--future-accent) 28%) !important;
+        opacity:.76 !important;
+      }
+
+      #clockSvg text{
+        font-family:Inter,"Segoe UI Variable","Segoe UI",system-ui,sans-serif !important;
+      }
+
+      #clockSvg #secondHand{
+        stroke:var(--future-accent) !important;
+        filter:drop-shadow(0 0 4px color-mix(in srgb,var(--future-accent) 60%, transparent)) !important;
+      }
 
       .settings-container{bottom:17px !important;right:17px !important}
+
       .settings-btn{
         border-radius:14px !important;
-        border:1px solid rgba(102,244,255,.18) !important;
-        background:rgba(5,16,34,.86) !important;
-        color:var(--r3r-cyan) !important;
-        box-shadow:0 0 24px rgba(102,244,255,.09) !important;
+        border:1px solid color-mix(in srgb,var(--future-accent) 24%, var(--future-border) 76%) !important;
+        background:color-mix(in srgb,var(--future-panel) 92%, transparent) !important;
+        color:var(--future-accent) !important;
+        box-shadow:0 0 24px color-mix(in srgb,var(--future-accent) 10%, transparent) !important;
         backdrop-filter:blur(12px) !important;
       }
+
       .settings-menu{
         border-radius:18px !important;
-        border:1px solid rgba(102,244,255,.18) !important;
-        background:rgba(5,16,34,.94) !important;
-        box-shadow:0 0 35px rgba(62,216,232,.11) !important;
+        border:1px solid color-mix(in srgb,var(--future-accent) 24%, var(--future-border) 76%) !important;
+        background:color-mix(in srgb,var(--future-panel) 96%, transparent) !important;
+        box-shadow:0 0 36px color-mix(in srgb,var(--future-accent) 11%, transparent) !important;
         backdrop-filter:blur(18px) !important;
       }
 
+      .settings-menu select,
+      .settings-menu input[type="range"],
+      .settings-menu input[type="checkbox"]{
+        accent-color:var(--future-accent) !important;
+      }
+
       .heatmap-section{
-        background:linear-gradient(180deg,rgba(4,12,27,.94),rgba(3,9,21,.98)) !important;
-        border-top:1px solid rgba(102,244,255,.13) !important;
+        background:linear-gradient(180deg,
+          color-mix(in srgb,var(--future-panel) 92%, var(--future-accent) 8%),
+          var(--bg-color)) !important;
+        border-top:1px solid color-mix(in srgb,var(--future-accent) 18%, var(--future-border) 82%) !important;
         padding:16px !important;
       }
+
       .heatmap-section::before{
         content:"R3R MARKET MATRIX";
         display:block;
         margin:2px 0 12px 4px;
-        color:var(--r3r-muted);
+        color:var(--future-muted);
         font-size:11px;
         font-weight:800;
         letter-spacing:.18em;
       }
 
       .ticker-tape-wrapper{
-        border-top:1px solid rgba(102,244,255,.15) !important;
-        background:rgba(4,12,27,.94) !important;
-        box-shadow:0 -6px 28px rgba(49,194,209,.05) !important;
+        border-top:1px solid color-mix(in srgb,var(--future-accent) 18%, var(--future-border) 82%) !important;
+        background:color-mix(in srgb,var(--future-panel) 94%, var(--bg-color) 6%) !important;
+        box-shadow:0 -6px 28px color-mix(in srgb,var(--future-accent) 6%, transparent) !important;
       }
 
       .side-panel::-webkit-scrollbar{width:4px !important}
-      .side-panel::-webkit-scrollbar-thumb{background:rgba(102,244,255,.18) !important;border-radius:999px !important}
+      .side-panel::-webkit-scrollbar-thumb{
+        background:color-mix(in srgb,var(--future-accent) 22%, transparent) !important;
+        border-radius:999px !important;
+      }
+
+      body.skin-nyse .clock-wrapper,
+      body.skin-nyse .side-panel,
+      body.skin-nyse .settings-menu,
+      body.skin-nyse .settings-btn{
+        box-shadow:0 0 24px rgba(37,99,235,.08),inset 0 0 30px rgba(37,99,235,.025) !important;
+      }
+
+      body.skin-matrix #clockSvg,
+      body.skin-emerald #clockSvg{
+        filter:drop-shadow(0 0 20px color-mix(in srgb,var(--future-accent) 16%, transparent)) !important;
+      }
+
+      body.skin-cyberpunk .clock-wrapper,
+      body.skin-sunset .clock-wrapper{
+        box-shadow:
+          0 0 42px color-mix(in srgb,var(--future-accent) 13%, transparent),
+          inset 0 0 70px color-mix(in srgb,var(--future-accent-2) 6%, transparent) !important;
+      }
 
       @media(max-width:1100px){
         .clock-section{padding-top:10px !important}
         .side-panel{width:250px !important;padding:10px !important}
       }
+
       @media(max-width:800px){
         .clock-section{padding-top:8px !important}
         .app-container{gap:8px !important}
@@ -269,12 +313,13 @@
     function installFutureTheme(){
       const doc=frame.contentDocument;
       if(!doc) return;
-      if(doc.getElementById('r3r-future-lab-style')) return;
+      const old=doc.getElementById('r3r-future-lab-style');
+      if(old) old.remove();
       const style=doc.createElement('style');
       style.id='r3r-future-lab-style';
       style.textContent=futureCSS;
       doc.head.appendChild(style);
-      doc.documentElement.setAttribute('data-r3r-future','1');
+      doc.documentElement.setAttribute('data-r3r-future','skin-aware');
     }
 
     frame.addEventListener('load',()=>{
