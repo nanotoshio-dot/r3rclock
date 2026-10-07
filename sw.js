@@ -1,4 +1,4 @@
-const CACHE_NAME = 'r3rclock-v2-future';
+const CACHE_NAME = 'r3rclock-v3-mobile-fullwidth';
 const urlsToCache = [
   './',
   './index.html',
