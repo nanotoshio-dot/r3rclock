@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <iframe id="clockFrame" src="./legacy.html?future-mobile=fullwidth-1" title="R3R Clock"></iframe>
+  <iframe id="clockFrame" src="./legacy.html?future-mobile=scroll-2" title="R3R Clock"></iframe>
 
   <script>
     const frame = document.getElementById('clockFrame');
@@ -237,13 +237,14 @@
         .side-panel{width:250px !important;padding:10px !important}
       }
 
-      /* MOBILE — clock and country cards use the exact same usable width */
+      /* MOBILE — full width + vertical access to TradingView */
       @media(max-width:800px){
         html,body{
           width:100% !important;
           max-width:100% !important;
           overflow-x:hidden !important;
           overflow-y:auto !important;
+          -webkit-overflow-scrolling:touch !important;
         }
 
         body{
@@ -423,7 +424,21 @@
           overflow:auto !important;
         }
 
-        .heatmap-section{display:none !important}
+        .heatmap-section{
+          display:flex !important;
+          width:100% !important;
+          max-width:100% !important;
+          height:72vh !important;
+          min-height:440px !important;
+          padding:10px 6px 64px !important;
+          overflow:hidden !important;
+          flex-shrink:0 !important;
+        }
+        .heatmap-section .tradingview-widget-container{
+          flex:1 1 auto !important;
+          min-height:360px !important;
+          width:100% !important;
+        }
 
         .ticker-tape-wrapper{
           height:54px !important;
@@ -470,7 +485,7 @@
       style.id='r3r-future-lab-style';
       style.textContent=futureCSS;
       doc.head.appendChild(style);
-      doc.documentElement.setAttribute('data-r3r-future','skin-aware-mobile-fullwidth');
+      doc.documentElement.setAttribute('data-r3r-future','skin-aware-mobile-scroll');
     }
 
     frame.addEventListener('load',()=>{
