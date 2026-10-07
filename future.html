@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>R3R Clock — Future Lab</title>
   <style>
     *{box-sizing:border-box}
@@ -28,18 +28,13 @@
           radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--future-accent) 16%, transparent),transparent 35%),
           radial-gradient(circle at 12% 12%,color-mix(in srgb,var(--future-accent-2) 10%, transparent),transparent 26%),
           radial-gradient(circle at 90% 88%,color-mix(in srgb,var(--future-accent) 8%, transparent),transparent 28%),
-          linear-gradient(180deg,
-            color-mix(in srgb,var(--bg-color) 88%, var(--future-accent) 12%),
-            var(--bg-color)) !important;
+          linear-gradient(180deg,color-mix(in srgb,var(--bg-color) 88%, var(--future-accent) 12%),var(--bg-color)) !important;
         color:var(--future-text) !important;
       }
 
       body::before{
         content:"";
-        position:fixed;
-        inset:0;
-        z-index:-1;
-        pointer-events:none;
+        position:fixed; inset:0; z-index:-1; pointer-events:none;
         background-image:
           linear-gradient(color-mix(in srgb,var(--future-accent) 7%, transparent) 1px,transparent 1px),
           linear-gradient(90deg,color-mix(in srgb,var(--future-accent) 7%, transparent) 1px,transparent 1px);
@@ -69,8 +64,7 @@
         background:linear-gradient(180deg,
           color-mix(in srgb,var(--future-panel) 90%, var(--future-accent) 10%),
           color-mix(in srgb,var(--future-panel) 96%, var(--bg-color) 4%)) !important;
-        box-shadow:
-          0 0 30px color-mix(in srgb,var(--future-accent) 8%, transparent),
+        box-shadow:0 0 30px color-mix(in srgb,var(--future-accent) 8%, transparent),
           inset 0 0 38px color-mix(in srgb,var(--future-accent) 4%, transparent) !important;
         backdrop-filter:blur(16px) !important;
       }
@@ -92,8 +86,7 @@
       .market-card:hover{
         transform:translateY(-1px) !important;
         border-color:color-mix(in srgb,var(--future-accent) 42%, var(--future-border) 58%) !important;
-        box-shadow:
-          0 0 22px color-mix(in srgb,var(--future-accent) 10%, transparent),
+        box-shadow:0 0 22px color-mix(in srgb,var(--future-accent) 10%, transparent),
           inset 0 0 22px color-mix(in srgb,var(--future-accent) 5%, transparent) !important;
       }
 
@@ -113,24 +106,20 @@
         border-color:color-mix(in srgb,#62ff9a 30%, var(--future-border) 70%) !important;
         background:color-mix(in srgb,#1c6639 22%, var(--future-panel) 78%) !important;
       }
-
       .card-closed .status-badge{
         color:var(--future-muted) !important;
         border-color:color-mix(in srgb,var(--future-muted) 20%, var(--future-border) 80%) !important;
         background:color-mix(in srgb,var(--future-muted) 8%, var(--future-panel) 92%) !important;
       }
-
       .card-holiday .status-badge{
         color:color-mix(in srgb,#ffc86a 72%, var(--future-text) 28%) !important;
         border-color:color-mix(in srgb,#ffc86a 30%, var(--future-border) 70%) !important;
         background:color-mix(in srgb,#8a5c20 18%, var(--future-panel) 82%) !important;
       }
-
       .card-closing-soon{
         border-color:color-mix(in srgb,#ff6d88 45%, var(--future-border) 55%) !important;
         box-shadow:0 0 22px color-mix(in srgb,#ff6d88 10%, transparent) !important;
       }
-
       .card-closing-soon .status-badge{
         color:#ff7f97 !important;
         background:color-mix(in srgb,#7c263b 22%, var(--future-panel) 78%) !important;
@@ -149,27 +138,18 @@
           radial-gradient(circle at center,color-mix(in srgb,var(--future-accent) 15%, transparent),transparent 42%),
           radial-gradient(circle at center,
             color-mix(in srgb,var(--future-panel) 86%, var(--future-accent) 14%),
-            color-mix(in srgb,var(--future-panel) 96%, transparent) 68%,
-            transparent 82%) !important;
-        box-shadow:
-          0 0 38px color-mix(in srgb,var(--future-accent) 9%, transparent),
+            color-mix(in srgb,var(--future-panel) 96%, transparent) 68%,transparent 82%) !important;
+        box-shadow:0 0 38px color-mix(in srgb,var(--future-accent) 9%, transparent),
           inset 0 0 64px color-mix(in srgb,var(--future-accent) 5%, transparent) !important;
         overflow:hidden !important;
       }
 
-      .clock-wrapper::before,
-      .clock-wrapper::after{
-        content:"";
-        position:absolute;
-        inset:7%;
+      .clock-wrapper::before,.clock-wrapper::after{
+        content:""; position:absolute; inset:7%;
         border:1px solid color-mix(in srgb,var(--future-accent) 8%, transparent);
-        border-radius:50%;
-        pointer-events:none;
+        border-radius:50%; pointer-events:none;
       }
-      .clock-wrapper::after{
-        inset:17%;
-        border-color:color-mix(in srgb,var(--future-accent-2) 5%, transparent);
-      }
+      .clock-wrapper::after{inset:17%;border-color:color-mix(in srgb,var(--future-accent-2) 5%, transparent)}
 
       #clockSvg{
         width:auto !important;
@@ -178,54 +158,29 @@
         max-height:100% !important;
         filter:drop-shadow(0 0 18px color-mix(in srgb,var(--future-accent) 12%, transparent)) !important;
       }
-
       #clockSvg .guide-ring{
         stroke:color-mix(in srgb,var(--future-accent) 12%, var(--future-border) 88%) !important;
         stroke-width:4.6 !important;
       }
-
       #clockSvg .market-arc.closed{
         stroke:color-mix(in srgb,var(--future-muted) 22%, var(--bg-color) 78%) !important;
         opacity:.58 !important;
       }
-
       #clockSvg .market-arc:not(.closed){
         opacity:.88 !important;
         filter:drop-shadow(0 0 2.5px color-mix(in srgb,var(--future-accent) 18%, transparent)) !important;
       }
-
-      #clockSvg .preopen-arc{
-        stroke:var(--future-accent-2) !important;
-        opacity:.46 !important;
-      }
-
-      #clockSvg .arc-text{
-        fill:var(--future-text) !important;
-        font-weight:800 !important;
-        letter-spacing:.9px !important;
-      }
-
-      #clockSvg .tick-line{
-        stroke:color-mix(in srgb,var(--tick-main) 78%, var(--future-accent) 22%) !important;
-        opacity:.80 !important;
-      }
-
-      #clockSvg .tick-line-sub{
-        stroke:color-mix(in srgb,var(--tick-sub) 72%, var(--future-accent) 28%) !important;
-        opacity:.76 !important;
-      }
-
-      #clockSvg text{
-        font-family:Inter,"Segoe UI Variable","Segoe UI",system-ui,sans-serif !important;
-      }
-
+      #clockSvg .preopen-arc{stroke:var(--future-accent-2) !important;opacity:.46 !important}
+      #clockSvg .arc-text{fill:var(--future-text) !important;font-weight:800 !important;letter-spacing:.9px !important}
+      #clockSvg .tick-line{stroke:color-mix(in srgb,var(--tick-main) 78%, var(--future-accent) 22%) !important;opacity:.80 !important}
+      #clockSvg .tick-line-sub{stroke:color-mix(in srgb,var(--tick-sub) 72%, var(--future-accent) 28%) !important;opacity:.76 !important}
+      #clockSvg text{font-family:Inter,"Segoe UI Variable","Segoe UI",system-ui,sans-serif !important}
       #clockSvg #secondHand{
         stroke:var(--future-accent) !important;
         filter:drop-shadow(0 0 4px color-mix(in srgb,var(--future-accent) 60%, transparent)) !important;
       }
 
       .settings-container{bottom:17px !important;right:17px !important}
-
       .settings-btn{
         border-radius:14px !important;
         border:1px solid color-mix(in srgb,var(--future-accent) 24%, var(--future-border) 76%) !important;
@@ -234,7 +189,6 @@
         box-shadow:0 0 24px color-mix(in srgb,var(--future-accent) 10%, transparent) !important;
         backdrop-filter:blur(12px) !important;
       }
-
       .settings-menu{
         border-radius:18px !important;
         border:1px solid color-mix(in srgb,var(--future-accent) 24%, var(--future-border) 76%) !important;
@@ -242,29 +196,19 @@
         box-shadow:0 0 36px color-mix(in srgb,var(--future-accent) 11%, transparent) !important;
         backdrop-filter:blur(18px) !important;
       }
-
-      .settings-menu select,
-      .settings-menu input[type="range"],
-      .settings-menu input[type="checkbox"]{
+      .settings-menu select,.settings-menu input[type="range"],.settings-menu input[type="checkbox"]{
         accent-color:var(--future-accent) !important;
       }
 
       .heatmap-section{
         background:linear-gradient(180deg,
-          color-mix(in srgb,var(--future-panel) 92%, var(--future-accent) 8%),
-          var(--bg-color)) !important;
+          color-mix(in srgb,var(--future-panel) 92%, var(--future-accent) 8%),var(--bg-color)) !important;
         border-top:1px solid color-mix(in srgb,var(--future-accent) 18%, var(--future-border) 82%) !important;
         padding:16px !important;
       }
-
       .heatmap-section::before{
-        content:"R3R MARKET MATRIX";
-        display:block;
-        margin:2px 0 12px 4px;
-        color:var(--future-muted);
-        font-size:11px;
-        font-weight:800;
-        letter-spacing:.18em;
+        content:"R3R MARKET MATRIX"; display:block; margin:2px 0 12px 4px;
+        color:var(--future-muted); font-size:11px; font-weight:800; letter-spacing:.18em;
       }
 
       .ticker-tape-wrapper{
@@ -274,39 +218,218 @@
       }
 
       .side-panel::-webkit-scrollbar{width:4px !important}
-      .side-panel::-webkit-scrollbar-thumb{
-        background:color-mix(in srgb,var(--future-accent) 22%, transparent) !important;
-        border-radius:999px !important;
-      }
+      .side-panel::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--future-accent) 22%, transparent) !important;border-radius:999px !important}
 
-      body.skin-nyse .clock-wrapper,
-      body.skin-nyse .side-panel,
-      body.skin-nyse .settings-menu,
-      body.skin-nyse .settings-btn{
+      body.skin-nyse .clock-wrapper,body.skin-nyse .side-panel,body.skin-nyse .settings-menu,body.skin-nyse .settings-btn{
         box-shadow:0 0 24px rgba(37,99,235,.08),inset 0 0 30px rgba(37,99,235,.025) !important;
       }
-
-      body.skin-matrix #clockSvg,
-      body.skin-emerald #clockSvg{
+      body.skin-matrix #clockSvg,body.skin-emerald #clockSvg{
         filter:drop-shadow(0 0 20px color-mix(in srgb,var(--future-accent) 16%, transparent)) !important;
       }
-
-      body.skin-cyberpunk .clock-wrapper,
-      body.skin-sunset .clock-wrapper{
-        box-shadow:
-          0 0 42px color-mix(in srgb,var(--future-accent) 13%, transparent),
+      body.skin-cyberpunk .clock-wrapper,body.skin-sunset .clock-wrapper{
+        box-shadow:0 0 42px color-mix(in srgb,var(--future-accent) 13%, transparent),
           inset 0 0 70px color-mix(in srgb,var(--future-accent-2) 6%, transparent) !important;
       }
 
-      @media(max-width:1100px){
+      @media(max-width:1100px) and (min-width:801px){
         .clock-section{padding-top:10px !important}
         .side-panel{width:250px !important;padding:10px !important}
       }
 
+      /* MOBILE OPERATOR MODE */
       @media(max-width:800px){
-        .clock-section{padding-top:8px !important}
-        .app-container{gap:8px !important}
-        .side-panel{border-radius:16px !important}
+        html,body{
+          overflow-x:hidden !important;
+          overflow-y:auto !important;
+          width:100% !important;
+        }
+
+        body{
+          padding-bottom:56px !important;
+          background-size:auto !important;
+        }
+
+        .clock-section{
+          height:auto !important;
+          min-height:0 !important;
+          padding:8px !important;
+          overflow:visible !important;
+        }
+
+        .app-container{
+          display:flex !important;
+          flex-direction:column !important;
+          align-items:stretch !important;
+          width:100% !important;
+          height:auto !important;
+          gap:10px !important;
+          overflow:visible !important;
+        }
+
+        .clock-wrapper{
+          order:1 !important;
+          width:100% !important;
+          height:auto !important;
+          min-height:0 !important;
+          aspect-ratio:1 / 1 !important;
+          padding:6px !important;
+          border-radius:22px !important;
+          overflow:hidden !important;
+        }
+
+        #clockSvg{
+          width:min(94vw,520px) !important;
+          height:auto !important;
+          max-width:100% !important;
+          max-height:none !important;
+          margin:auto !important;
+        }
+
+        .settings-container{
+          bottom:10px !important;
+          right:10px !important;
+        }
+
+        .settings-btn{
+          font-size:1.05rem !important;
+          padding:7px 9px !important;
+          border-radius:12px !important;
+        }
+
+        .settings-menu{
+          max-width:min(88vw,320px) !important;
+          min-width:190px !important;
+          max-height:70vh !important;
+          overflow:auto !important;
+        }
+
+        .left-panel,.right-panel{
+          width:100% !important;
+          height:auto !important;
+          min-height:0 !important;
+          display:flex !important;
+          flex-direction:row !important;
+          align-items:stretch !important;
+          justify-content:flex-start !important;
+          gap:8px !important;
+          padding:8px !important;
+          overflow-x:auto !important;
+          overflow-y:hidden !important;
+          scroll-snap-type:x mandatory !important;
+          -webkit-overflow-scrolling:touch !important;
+          border-radius:18px !important;
+          scrollbar-width:none !important;
+        }
+
+        .left-panel{order:2 !important}
+        .right-panel{order:3 !important}
+        .left-panel::-webkit-scrollbar,.right-panel::-webkit-scrollbar{display:none !important}
+
+        .market-card{
+          flex:0 0 min(88vw,360px) !important;
+          width:min(88vw,360px) !important;
+          min-width:0 !important;
+          min-height:96px !important;
+          padding:10px 12px !important;
+          border-radius:16px !important;
+          scroll-snap-align:center !important;
+          scroll-snap-stop:always !important;
+          justify-content:center !important;
+          gap:8px !important;
+        }
+
+        .card-row{
+          width:100% !important;
+          gap:8px !important;
+        }
+
+        .card-row-top{
+          flex-wrap:nowrap !important;
+          min-width:0 !important;
+        }
+
+        .card-row-bottom{
+          flex-wrap:wrap !important;
+          align-items:center !important;
+          justify-content:space-between !important;
+          row-gap:7px !important;
+        }
+
+        .market-title-group{
+          min-width:0 !important;
+          overflow:hidden !important;
+        }
+
+        .market-card h3{
+          font-size:.90rem !important;
+        }
+
+        .market-card .country{
+          min-width:0 !important;
+          overflow:hidden !important;
+          text-overflow:ellipsis !important;
+          white-space:nowrap !important;
+        }
+
+        .status-badge{
+          max-width:110px !important;
+          overflow:hidden !important;
+          text-overflow:ellipsis !important;
+          padding:3px 8px !important;
+          font-size:.62rem !important;
+        }
+
+        .market-card .card-timer{
+          min-width:0 !important;
+          gap:5px !important;
+        }
+
+        .countdown-label{
+          font-size:.60rem !important;
+        }
+
+        .countdown-timer{
+          font-size:.78rem !important;
+        }
+
+        .card-alarms-inline{
+          margin-left:auto !important;
+          gap:5px !important;
+          flex-shrink:0 !important;
+        }
+
+        .alarm-control{gap:2px !important}
+        .alarm-bell{font-size:.72rem !important}
+        .alarm-minutes{width:31px !important;font-size:.64rem !important}
+
+        /* Heatmap is intentionally removed from phone mode: the clock/cards win the space. */
+        .heatmap-section{
+          display:none !important;
+        }
+
+        .ticker-tape-wrapper{
+          height:54px !important;
+          min-height:54px !important;
+          max-height:54px !important;
+          overflow:hidden !important;
+          border-top-width:1px !important;
+          box-shadow:0 -4px 18px color-mix(in srgb,var(--future-accent) 7%, transparent) !important;
+        }
+
+        .ticker-tape-wrapper tv-ticker-tape{
+          display:block !important;
+          height:54px !important;
+          min-height:54px !important;
+        }
+      }
+
+      @media(max-width:430px){
+        .clock-section{padding:6px !important}
+        .clock-wrapper{border-radius:18px !important;padding:4px !important}
+        #clockSvg{width:96vw !important}
+        .market-card{flex-basis:90vw !important;width:90vw !important;min-height:94px !important}
+        .side-panel{padding:7px !important;border-radius:16px !important}
+        .settings-container{bottom:8px !important;right:8px !important}
       }
     `;
 
@@ -319,7 +442,7 @@
       style.id='r3r-future-lab-style';
       style.textContent=futureCSS;
       doc.head.appendChild(style);
-      doc.documentElement.setAttribute('data-r3r-future','skin-aware');
+      doc.documentElement.setAttribute('data-r3r-future','skin-aware-mobile');
     }
 
     frame.addEventListener('load',()=>{
