@@ -1,8 +1,9 @@
-const CACHE_NAME = 'r3rclock-v4-mobile-scroll';
-const urlsToCache = [
+const CACHE_NAME = 'r3rclock-v5-timezones';
+const APP_SHELL = [
   './',
   './index.html',
   './legacy.html',
+  './market-timezones.js',
   './icon.svg',
   './manifest.json'
 ];
@@ -10,28 +11,56 @@ const urlsToCache = [
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL))
   );
 });
 
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     Promise.all([
       caches.keys().then(cacheNames => Promise.all(
-        cacheNames.map(cacheName => {
-          if (!cacheWhitelist.includes(cacheName)) return caches.delete(cacheName);
-        })
+        cacheNames
+          .filter(cacheName => cacheName !== CACHE_NAME)
+          .map(cacheName => caches.delete(cacheName))
       )),
       self.clients.claim()
     ])
+  );
+});
+
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  const sameOrigin = url.origin === self.location.origin;
+  const isNavigation = request.mode === 'navigate';
+  const isAppCode = sameOrigin && (
+    url.pathname.endsWith('/') ||
+    url.pathname.endsWith('/index.html') ||
+    url.pathname.endsWith('/legacy.html') ||
+    url.pathname.endsWith('/market-timezones.js')
+  );
+
+  // Network-first for the application itself so GitHub/Vercel updates are visible
+  // immediately instead of being trapped behind an old PWA cache.
+  if (isNavigation || isAppCode) {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          if (response && response.ok && sameOrigin) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request).then(cached => cached || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // Cache-first is fine for immutable/static assets.
+  event.respondWith(
+    caches.match(request).then(cached => cached || fetch(request))
   );
 });
