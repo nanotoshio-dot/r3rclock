@@ -14,7 +14,7 @@
   const zonedMarkets = {
     wellington: {
       timeZone: 'Pacific/Auckland',
-      sessions: [{ open: 10.0, close: 16.75 }]
+      sessions: [{ open: 11.0, close: 17.75 }]
     },
     sydney: {
       timeZone: 'Australia/Sydney',
@@ -230,14 +230,6 @@
 
   refreshDynamicGeometry();
   setInterval(refreshDynamicGeometry, 60000);
-
-  // Load broker/instrument state separately from exchange sessions.
-  if (!document.getElementById('r3r-broker-market-status')) {
-    const brokerScript = document.createElement('script');
-    brokerScript.id = 'r3r-broker-market-status';
-    brokerScript.src = './broker-market-status.js?v=20261101-broker1';
-    document.head.appendChild(brokerScript);
-  }
 
   // Regression marker for the US DST switch on 2026-11-01.
   const regressionInstant = new Date('2026-11-02T14:30:00Z');
