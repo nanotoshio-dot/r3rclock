@@ -217,7 +217,6 @@
         background:color-mix(in srgb,var(--future-panel) 94%, var(--bg-color) 6%) !important;
         box-shadow:0 -6px 28px color-mix(in srgb,var(--future-accent) 6%, transparent) !important;
       }
-
       .side-panel::-webkit-scrollbar{width:4px !important}
       .side-panel::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--future-accent) 22%, transparent) !important;border-radius:999px !important}
 
@@ -488,9 +487,20 @@
       doc.documentElement.setAttribute('data-r3r-future','skin-aware-mobile-scroll');
     }
 
+    function installTimezonePatch(){
+      const doc=frame.contentDocument;
+      if(!doc || doc.getElementById('r3r-market-timezones')) return;
+      const script=doc.createElement('script');
+      script.id='r3r-market-timezones';
+      script.src='./market-timezones.js?v=20261101-dst1';
+      doc.head.appendChild(script);
+    }
+
     frame.addEventListener('load',()=>{
       installFutureTheme();
+      installTimezonePatch();
       setTimeout(installFutureTheme,400);
+      setTimeout(installTimezonePatch,500);
       setTimeout(installFutureTheme,1200);
     });
   </script>
