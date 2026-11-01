@@ -1,10 +1,9 @@
-const CACHE_NAME = 'r3rclock-v6-broker-status';
+const CACHE_NAME = 'r3rclock-v7-broker-revert';
 const APP_SHELL = [
   './',
   './index.html',
   './legacy.html',
   './market-timezones.js',
-  './broker-market-status.js',
   './icon.svg',
   './manifest.json'
 ];
@@ -40,11 +39,9 @@ self.addEventListener('fetch', event => {
     url.pathname.endsWith('/') ||
     url.pathname.endsWith('/index.html') ||
     url.pathname.endsWith('/legacy.html') ||
-    url.pathname.endsWith('/market-timezones.js') ||
-    url.pathname.endsWith('/broker-market-status.js')
+    url.pathname.endsWith('/market-timezones.js')
   );
 
-  // Network-first for application code so GitHub/Vercel updates appear immediately.
   if (isNavigation || isAppCode) {
     event.respondWith(
       fetch(request)
