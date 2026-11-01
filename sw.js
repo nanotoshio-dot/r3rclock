@@ -1,9 +1,10 @@
-const CACHE_NAME = 'r3rclock-v5-timezones';
+const CACHE_NAME = 'r3rclock-v6-broker-status';
 const APP_SHELL = [
   './',
   './index.html',
   './legacy.html',
   './market-timezones.js',
+  './broker-market-status.js',
   './icon.svg',
   './manifest.json'
 ];
@@ -39,11 +40,11 @@ self.addEventListener('fetch', event => {
     url.pathname.endsWith('/') ||
     url.pathname.endsWith('/index.html') ||
     url.pathname.endsWith('/legacy.html') ||
-    url.pathname.endsWith('/market-timezones.js')
+    url.pathname.endsWith('/market-timezones.js') ||
+    url.pathname.endsWith('/broker-market-status.js')
   );
 
-  // Network-first for the application itself so GitHub/Vercel updates are visible
-  // immediately instead of being trapped behind an old PWA cache.
+  // Network-first for application code so GitHub/Vercel updates appear immediately.
   if (isNavigation || isAppCode) {
     event.respondWith(
       fetch(request)
@@ -59,7 +60,6 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first is fine for immutable/static assets.
   event.respondWith(
     caches.match(request).then(cached => cached || fetch(request))
   );
