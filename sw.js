@@ -1,4 +1,4 @@
-const CACHE_NAME = 'r3rclock-v7-broker-revert';
+const CACHE_NAME = 'r3rclock-v8-fx-session-split';
 const APP_SHELL = [
   './',
   './index.html',
