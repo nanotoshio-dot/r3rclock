@@ -1,4 +1,4 @@
-const CACHE_NAME = 'r3rclock-v4';
+const CACHE_NAME = 'r3rclock-v5';
 const urlsToCache = [
   './',
   './index.html',
