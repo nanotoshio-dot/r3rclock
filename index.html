@@ -1471,9 +1471,9 @@ body{
         if (!i18n[currentLang]) { currentLang = 'pt'; }
 
         const markets = [
-            { id: 'wellington', name: 'NZX', color: '#f57c00', country: { pt: 'Nova Zelândia', es: 'Nueva Zelanda', en: 'New Zealand', fr: 'Nouvelle-Zélande' }, timeZone: 'Pacific/Auckland', localSessions: [{ open: 12.0, close: 18.75 }] },
+            { id: 'wellington', name: 'NZX', color: '#f57c00', country: { pt: 'Nova Zelândia', es: 'Nueva Zelanda', en: 'New Zealand', fr: 'Nouvelle-Zélande' }, timeZone: 'Pacific/Auckland', localSessions: [{ open: 10.0, close: 16.75 }] },
             { id: 'sydney', name: 'ASX', color: '#fb8c00', country: { pt: 'Austrália', es: 'Australia', en: 'Australia', fr: 'Australie' }, timeZone: 'Australia/Sydney', localSessions: [{ open: 10.0, close: 16.0 }] },
-            { id: 'tokyo', name: 'TSE-JP', color: '#e53935', country: { pt: 'Japão', es: 'Japón', en: 'Japan', fr: 'Japon' }, timeZone: 'Asia/Tokyo', localSessions: [{ open: 9.0, close: 15.0 }], localPreOpen: { open: 8.0, close: 9.0 } },
+            { id: 'tokyo', name: 'TSE-JP', color: '#e53935', country: { pt: 'Japão', es: 'Japón', en: 'Japan', fr: 'Japon' }, timeZone: 'Asia/Tokyo', localSessions: [{ open: 9.0, close: 11.5 }, { open: 12.5, close: 15.5 }], localPreOpen: { open: 8.0, close: 9.0 } },
             { id: 'shenzhen', name: 'SZSE', color: '#ef5350', country: { pt: 'China', es: 'China', en: 'China', fr: 'Chine' }, timeZone: 'Asia/Shanghai', localSessions: [{ open: 9.5, close: 11.5 }, { open: 13.0, close: 15.0 }], localPreOpen: { open: 9.25, close: 9.5 } },
             { id: 'hongkong', name: 'HKEX', color: '#c62828', country: { pt: 'Hong Kong', es: 'Hong Kong', en: 'Hong Kong', fr: 'Hong Kong' }, timeZone: 'Asia/Hong_Kong', localSessions: [{ open: 9.5, close: 12.0 }, { open: 13.0, close: 16.0 }], localPreOpen: { open: 9.0, close: 9.5 } },
             { id: 'nse', name: 'NSE', color: '#fdd835', country: { pt: 'Índia', es: 'India', en: 'India', fr: 'Inde' }, timeZone: 'Asia/Kolkata', localSessions: [{ open: 9.25, close: 15.5 }], localPreOpen: { open: 9.0, close: 9.25 } },
@@ -1488,7 +1488,7 @@ body{
             { id: 'london', name: 'LSE', color: '#1a237e', country: { pt: 'Reino Unido', es: 'Reino Unido', en: 'United Kingdom', fr: 'Royaume-Uni' }, timeZone: 'Europe/London', localSessions: [{ open: 8.0, close: 16.5 }] },
             { id: 'johannesburg', name: 'JSE', color: '#6d4c41', country: { pt: 'África do Sul', es: 'Sudáfrica', en: 'South Africa', fr: 'Afrique du Sud' }, timeZone: 'Africa/Johannesburg', localSessions: [{ open: 9.0, close: 17.0 }] },
             { id: 'iceland', name: 'ICEX', color: '#00838f', country: { pt: 'Islândia', es: 'Islandia', en: 'Iceland', fr: 'Islande' }, timeZone: 'Atlantic/Reykjavik', localSessions: [{ open: 9.5, close: 15.5 }] },
-            { id: 'saopaulo', name: 'B3', color: '#388e3c', country: { pt: 'Brasil', es: 'Brasil', en: 'Brazil', fr: 'Brésil' }, timeZone: 'America/Sao_Paulo', localSessions: [{ open: 10.0, close: 17.0 }] },
+            { id: 'saopaulo', name: 'B3', color: '#388e3c', country: { pt: 'Brasil', es: 'Brasil', en: 'Brazil', fr: 'Brésil' }, timeZone: 'America/Sao_Paulo', localSessions: [{ open: 10.0, close: 17.9166667 }] },
             { id: 'newyork', name: 'NYSE', color: '#2e7d32', country: { pt: 'Estados Unidos', es: 'EE. UU.', en: 'United States', fr: 'États-Unis' }, timeZone: 'America/New_York', localSessions: [{ open: 9.5, close: 16.0 }] },
             { id: 'toronto', name: 'TSX', color: '#43a047', country: { pt: 'Canadá', es: 'Canadá', en: 'Canada', fr: 'Canada' }, timeZone: 'America/Toronto', localSessions: [{ open: 9.5, close: 16.0 }] }
         ];
