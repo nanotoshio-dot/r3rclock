@@ -1357,6 +1357,59 @@ body{
         }
       }
 
+      /* Mobile usability pass: show market cards without hidden horizontal swiping */
+      @media(max-width:800px){
+        .left-panel,.right-panel{
+          display:grid !important;
+          grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+          align-items:stretch !important;
+          justify-content:stretch !important;
+          gap:7px !important;
+          overflow:visible !important;
+          overflow-x:visible !important;
+          overflow-y:visible !important;
+          scroll-snap-type:none !important;
+          padding:7px !important;
+        }
+        .market-card{
+          box-sizing:border-box !important;
+          flex:none !important;
+          width:100% !important;
+          min-width:0 !important;
+          max-width:100% !important;
+          min-height:82px !important;
+          padding:8px 9px !important;
+          scroll-snap-align:none !important;
+          scroll-snap-stop:normal !important;
+        }
+        .r3r-donation-link{
+          top:9px !important;
+          right:9px !important;
+          width:116px !important;
+        }
+      }
+
+      @media(max-width:430px){
+        .left-panel,.right-panel{
+          grid-template-columns:minmax(0,1fr) !important;
+          gap:5px !important;
+          padding:6px !important;
+        }
+        .market-card{
+          min-height:74px !important;
+          padding:8px 10px !important;
+        }
+        .r3r-donation-link{
+          width:104px !important;
+          top:8px !important;
+          right:8px !important;
+        }
+        .clock-wrapper{
+          min-height:0 !important;
+          aspect-ratio:1 / 1 !important;
+        }
+      }
+
       @media(max-width:430px){
         .clock-section{padding:5px !important}
         .clock-wrapper,.left-panel,.right-panel{border-radius:17px !important}
