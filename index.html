@@ -1341,6 +1341,103 @@ body{
         .countdown-timer{font-size:.74rem !important}
         .alarm-minutes{width:28px !important;font-size:.60rem !important}
       }
+
+        /* R3R Editorial / anti-template visual preview — CSS only */
+        body.skin-classic,
+        body:not([class*="skin-"]) {
+            --bg-color: #101315;
+            --text-main: #e6e8e5;
+            --text-dim: #929b9a;
+            --panel-bg: #151a1c;
+            --panel-border: #30393a;
+            --accent-color: #c18a45;
+            --accent-orange: #d2a15e;
+            --clock-ring: #c18a45;
+            --tick-main: #cbd0cc;
+            --tick-sub: #394344;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            letter-spacing: 0;
+        }
+        body.skin-classic .side-panel {
+            background: #131819;
+            padding: 8px 10px;
+            gap: 0;
+        }
+        body.skin-classic .left-panel { border-right: 1px solid #30393a; }
+        body.skin-classic .right-panel { border-left: 1px solid #30393a; }
+        body.skin-classic .market-card {
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid #293233;
+            border-radius: 0;
+            padding: 7px 5px;
+            gap: 4px;
+            min-height: 44px;
+            box-shadow: none;
+        }
+        body.skin-classic .market-card:hover {
+            background: #1b2223;
+            border-color: #465151;
+        }
+        body.skin-classic .market-card h3 {
+            font-size: .78rem;
+            font-weight: 650;
+            letter-spacing: .15px;
+        }
+        body.skin-classic .market-card .country {
+            font-size: .66rem;
+            color: #929b9a;
+        }
+        body.skin-classic .status-badge {
+            border-radius: 2px;
+            font-size: .58rem;
+            font-weight: 700;
+            letter-spacing: .55px;
+            padding: 2px 5px;
+        }
+        body.skin-classic .card-open .status-badge {
+            background: #1b3028;
+            color: #91c7a5;
+            border: 1px solid #355b47;
+        }
+        body.skin-classic .card-closed .status-badge {
+            background: #292a28;
+            color: #a8aaa4;
+            border: 1px solid #484b46;
+        }
+        body.skin-classic .card-holiday .status-badge {
+            background: #332b20;
+            color: #d8b77f;
+            border: 1px solid #665238;
+        }
+        body.skin-classic .countdown-timer {
+            color: #d2a15e;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: .2px;
+        }
+        body.skin-classic .countdown-label {
+            letter-spacing: .7px;
+            font-size: .56rem;
+        }
+        body.skin-classic .settings-btn {
+            border-radius: 3px;
+            box-shadow: none;
+            background: #171d1e;
+        }
+        body.skin-classic .settings-menu {
+            border-radius: 3px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.28);
+        }
+        body.skin-classic .market-arc { stroke-width: 5; }
+        body.skin-classic .guide-ring { stroke: #30393a; }
+        body.skin-classic .preopen-arc { stroke: #596160; }
+        body.skin-classic .market-arc.closed { stroke: #343c3c !important; }
+        body.skin-classic .hour-text { fill: #d2a15e; }
+        body.skin-classic .center-text-orange { fill: #d2a15e; }
+        body.skin-classic .settings-btn:hover {
+            background: #222a2b;
+            border-color: #a77b43;
+        }
     </style>
 </head>
 
