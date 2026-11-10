@@ -377,6 +377,41 @@
             display: block;
         }
 
+        /* R3R community donation button — isolated visual test */
+        .r3r-donation-link {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            z-index: 30;
+            display: block;
+            width: 155px;
+            max-width: calc(100% - 28px);
+            line-height: 0;
+            border-radius: 8px;
+            opacity: 0.9;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .r3r-donation-link:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        .r3r-donation-link img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            .r3r-donation-link {
+                top: 10px;
+                right: 10px;
+                width: 128px;
+            }
+        }
+
         /* Menu de Configurações */
         .settings-container {
             position: absolute;
@@ -1448,6 +1483,19 @@ body{
             <div class="side-panel left-panel" id="leftPanel"></div>
 
             <div class="clock-wrapper">
+                <a
+                    class="r3r-donation-link"
+                    href="https://nowpayments.io/donation/r3r"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Support R3R"
+                    aria-label="Support R3R with a cryptocurrency donation"
+                >
+                    <img
+                        src="https://nowpayments.io/images/embeds/donation-button-white.svg"
+                        alt="Donate with NOWPayments"
+                    >
+                </a>
                 <svg id="clockSvg" viewBox="0 0 500 500">
                     <defs></defs>
                     <circle cx="250" cy="250" r="250" fill="var(--bg-color)" />
